@@ -1,4 +1,3 @@
-
 pragma solidity >=0.4.25 <0.6.0;
 
 contract Descriptor {
@@ -7,11 +6,12 @@ contract Descriptor {
     event WeightInserted(address from, uint weight);
     event WeightRetrieved(address from, uint weight);
 
+    mapping(string => uint[]) public populationDescriptors;
+
     constructor() public {
-        weightDescriptors = new uint[](0);
     }
 
-    function insertWeight(uint weight) public {
+    function insertDescriptor(uint weight) public {
         if(weight <= 0 || weight > 1000) {
             return;
         }
