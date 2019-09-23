@@ -7,9 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "descriptor": "ts-node ./scripts/descriptor-client.ts",
-    "compile": "npm run weight && truffle compile",
-    "launch:blockchain": "truffle develop",
+    "build": "tsc --p tsconfig.json && npm build:truffle && npm run generate-types",
+    "build:typescript": "tsc --p tsconfig.json",
+    "build:truffle": "truffle compile",
+    "generate-types": "typechain --target truffle './build/**/*.json' && typechain --target web3-1.0.0 './build/**/*.json'",
+    "postinstall": "npm run generate-types",
     "migrate": "truffle migrate",
     "test": "truffle test"
   },
@@ -28,13 +30,15 @@
     "eslint": "^6.4.0",
     "mocha": "^6.2.0",
     "truffle": "^5.0.37",
+    "truffle-typings": "^1.0.8",
     "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
+    "typechain": "^0.3.21",
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "solc": "^0.5.11",
+    "bignumber.js": "^9.0.0",
     "web3": "^1.2.1"
   }
 }

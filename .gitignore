@@ -1,5 +1,8 @@
 
 ### Node ###
+build
+**/*.js
+*.js
 # Logs
 logs
 *.log
