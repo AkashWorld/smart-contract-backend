@@ -11,7 +11,7 @@
 		"build": "tsc -p tsconfig.json && npm run build:truffle && npm run generate-types",
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
-		"generate-types": "typechain --target truffle './build/**/*.json' && typechain --target web3-1.0.0 './build/**/*.json'",
+		"generate-types": "typechain --target truffle './build/**/contracts/*.json' && typechain --target web3-1.0.0 './build/**/contracts/*.json'",
 		"postinstall": "npm run generate-types",
 		"migrate": "truffle migrate",
 		"migrate:test": "truffle migrate --network test",
@@ -21,7 +21,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "npm run generate-types && git add"
+			"pre-commit": "npm run generate-types && git add ."
 		}
 	},
 	"keywords": [
