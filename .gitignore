@@ -2,7 +2,7 @@
 ### Node ###
 build
 **/*.js
-*.js
+!truffle-config.js
 # Logs
 logs
 *.log

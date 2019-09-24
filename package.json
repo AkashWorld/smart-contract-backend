@@ -1,44 +1,61 @@
 {
-  "name": "pop-desc-smart-contracts",
-  "version": "1.0.0",
-  "description": "Smart contract backend based on the Etherium blockchain to model population descriptors.",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "build": "tsc --p tsconfig.json && npm build:truffle && npm run generate-types",
-    "build:typescript": "tsc --p tsconfig.json",
-    "build:truffle": "truffle compile",
-    "generate-types": "typechain --target truffle './build/**/*.json' && typechain --target web3-1.0.0 './build/**/*.json'",
-    "postinstall": "npm run generate-types",
-    "migrate": "truffle migrate",
-    "test": "truffle test"
-  },
-  "keywords": [
-    "blockchain",
-    "etherium",
-    "truffle"
-  ],
-  "author": "SE group 5",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/chai": "^4.2.3",
-    "@types/mocha": "^5.2.7",
-    "@types/web3": "^1.0.19",
-    "chai": "^4.2.0",
-    "eslint": "^6.4.0",
-    "mocha": "^6.2.0",
-    "truffle": "^5.0.37",
-    "truffle-typings": "^1.0.8",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typechain": "^0.3.21",
-    "typescript": "^3.6.3"
-  },
-  "dependencies": {
-    "bignumber.js": "^9.0.0",
-    "web3": "^1.2.1"
-  }
+	"name": "pop-desc-smart-contracts",
+	"version": "1.0.0",
+	"description": "Smart contract backend based on the Etherium blockchain to model population descriptors.",
+	"main": "index.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"start": "ts-node src/index.ts",
+		"build": "tsc -p tsconfig.json && npm run build:truffle && npm run generate-types",
+		"build:typescript": "tsc --p tsconfig.json",
+		"build:truffle": "truffle compile",
+		"generate-types": "typechain --target truffle './build/**/*.json' && typechain --target web3-1.0.0 './build/**/*.json'",
+		"postinstall": "npm run generate-types",
+		"migrate": "truffle migrate",
+		"migrate:test": "truffle migrate --network test",
+		"deploy:local": "ganache-cli &",
+		"kill:local": "pkill -f '.*ganache-cli'",
+		"test": "npm run deploy:local && truffle test --network test && npm run kill:local"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run generate-types && git add"
+		}
+	},
+	"keywords": [
+		"blockchain",
+		"etherium",
+		"truffle"
+	],
+	"author": "SE group 5",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/chai": "^4.2.3",
+		"@types/mocha": "^5.2.7",
+		"@types/web3": "^1.0.19",
+		"chai": "^4.2.0",
+		"eslint": "^6.4.0",
+		"ganache-cli": "^6.7.0",
+		"ganache-core": "^2.8.0",
+		"husky": "^3.0.5",
+		"mocha": "^6.2.0",
+		"truffle": "^5.0.37",
+		"truffle-typings": "^1.0.8",
+		"ts-node": "^8.4.1",
+		"tslint": "^5.20.0",
+		"tslint-config-prettier": "^1.18.0",
+		"typechain": "^0.3.21",
+		"typescript": "^3.6.3"
+	},
+	"dependencies": {
+		"bignumber.js": "^9.0.0",
+		"web3": "^1.2.1"
+	},
+	"prettier": {
+		"tabWidth": 4,
+		"singleQuote": true,
+		"useTabs": true
+	}
 }

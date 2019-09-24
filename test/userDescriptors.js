@@ -39,8 +39,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * User descriptors contract reference
  */
-var UserDescriptors = artifacts.require("UserDescriptors");
-contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, void 0, void 0, function () {
+var UserDescriptors = artifacts.require('UserDescriptors');
+contract('UserDescriptors test', function (accounts) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         /**
          * The unit test is in the form of:
@@ -48,24 +48,24 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
          * The functions are asynchronous because it needs to connect to the local blockchain
          * the function() is in the form of an arrow function: async function() {} is the same as async () => {}
          */
-        it("should return 0 when unit value does not exist", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return 0 when unit value does not exist', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, returnedValue;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserDescriptors.new()];
                     case 1:
                         contractInstance = _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("lb", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('lb', {
                                 from: accounts[0]
                             })];
                     case 2:
                         returnedValue = _a.sent();
-                        assert.equal(returnedValue.toNumber(), 0, "did not return 0 when units did not exist");
+                        assert.equal(returnedValue.toNumber(), 0, 'did not return 0 when units did not exist');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return a value when inserted a value", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return a value when inserted a value', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, expectedVal, returnedValue;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -73,31 +73,31 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                     case 1:
                         contractInstance = _a.sent();
                         expectedVal = 150;
-                        return [4 /*yield*/, contractInstance.insertValue("lb", expectedVal, {
+                        return [4 /*yield*/, contractInstance.insertValue('lb', expectedVal, {
                                 from: accounts[0]
                             })];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("lb", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('lb', {
                                 from: accounts[0]
                             })];
                     case 3:
                         returnedValue = _a.sent();
-                        assert.equal(returnedValue.toNumber(), expectedVal, "did not return the latest recorded value from unit lb");
+                        assert.equal(returnedValue.toNumber(), expectedVal, 'did not return the latest recorded value from unit lb');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return the correct pair of values per unit", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return the correct pair of values per unit', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, expectedVal1, expectedVal2, expectedVal3, returnedVal1, returnedVal2, returnedVal3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserDescriptors.new()];
                     case 1:
                         contractInstance = _a.sent();
-                        expectedVal1 = { unit: "lb", val: 150 };
-                        expectedVal2 = { unit: "inch", val: 12 };
-                        expectedVal3 = { unit: "g", val: 30 };
+                        expectedVal1 = { unit: 'lb', val: 150 };
+                        expectedVal2 = { unit: 'inch', val: 12 };
+                        expectedVal3 = { unit: 'g', val: 30 };
                         return [4 /*yield*/, contractInstance.insertValue(expectedVal1.unit, expectedVal1.val, {
                                 from: accounts[0]
                             })];
@@ -113,29 +113,29 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                             })];
                     case 4:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("lb", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('lb', {
                                 from: accounts[0]
                             })];
                     case 5:
                         returnedVal1 = _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("inch", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('inch', {
                                 from: accounts[0]
                             })];
                     case 6:
                         returnedVal2 = _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("g", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('g', {
                                 from: accounts[0]
                             })];
                     case 7:
                         returnedVal3 = _a.sent();
-                        assert.equal(returnedVal1.toNumber(), expectedVal1.val, "returned value is not the same as the input value, 150");
-                        assert.equal(returnedVal2.toNumber(), expectedVal2.val, "returned value is not the same as the input value, 12");
-                        assert.equal(returnedVal3.toNumber(), expectedVal3.val, "returned value is not the same as the input value, 30");
+                        assert.equal(returnedVal1.toNumber(), expectedVal1.val, 'returned value is not the same as the input value, 150');
+                        assert.equal(returnedVal2.toNumber(), expectedVal2.val, 'returned value is not the same as the input value, 12');
+                        assert.equal(returnedVal3.toNumber(), expectedVal3.val, 'returned value is not the same as the input value, 30');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return most recent values of multiple inserted values", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return most recent values of multiple inserted values', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, expectedVal, key, returnedValue;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -143,7 +143,7 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                     case 1:
                         contractInstance = _a.sent();
                         expectedVal = 150;
-                        key = "lb";
+                        key = 'lb';
                         return [4 /*yield*/, contractInstance.insertValue(key, 50, { from: accounts[0] })];
                     case 2:
                         _a.sent();
@@ -161,12 +161,12 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                             })];
                     case 6:
                         returnedValue = _a.sent();
-                        assert.equal(returnedValue.toNumber(), expectedVal, "last inserted value is not returned value");
+                        assert.equal(returnedValue.toNumber(), expectedVal, 'last inserted value is not returned value');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should not return values that the account did not post", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should not return values that the account did not post', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, expectedVal, returnedValue;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -174,37 +174,37 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                     case 1:
                         contractInstance = _a.sent();
                         expectedVal = 0;
-                        return [4 /*yield*/, contractInstance.insertValue("lb", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('lb', 150, { from: accounts[0] })];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.getLatestUnitValue("lb", {
+                        return [4 /*yield*/, contractInstance.getLatestUnitValue('lb', {
                                 from: accounts[1]
                             })];
                     case 3:
                         returnedValue = _a.sent();
-                        assert.equal(returnedValue.toNumber(), expectedVal, "incorrect return value, should be 0 as the inesrted value was from a different user address");
+                        assert.equal(returnedValue.toNumber(), expectedVal, 'incorrect return value, should be 0 as the inesrted value was from a different user address');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return an empty list if the unit does not exist", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return an empty list if the unit does not exist', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, returnedArray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserDescriptors.new()];
                     case 1:
                         contractInstance = _a.sent();
-                        return [4 /*yield*/, contractInstance.getAllUnitValues("lb", {
+                        return [4 /*yield*/, contractInstance.getAllUnitValues('lb', {
                                 from: accounts[0]
                             })];
                     case 2:
                         returnedArray = _a.sent();
-                        assert.equal(returnedArray.length, 0, "array length is not 0, expected empty");
+                        assert.equal(returnedArray.length, 0, 'array length is not 0, expected empty');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return a list full of values if values were inserted", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return a list full of values if values were inserted', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, expectedList, key, _i, expectedList_1, val, returnedArray, i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -212,7 +212,7 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                     case 1:
                         contractInstance = _a.sent();
                         expectedList = [23, 435, 22, 150, 700, 20, 13];
-                        key = "lb";
+                        key = 'lb';
                         _i = 0, expectedList_1 = expectedList;
                         _a.label = 2;
                     case 2:
@@ -227,12 +227,12 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                     case 4:
                         _i++;
                         return [3 /*break*/, 2];
-                    case 5: return [4 /*yield*/, contractInstance.getAllUnitValues("lb", {
+                    case 5: return [4 /*yield*/, contractInstance.getAllUnitValues('lb', {
                             from: accounts[0]
                         })];
                     case 6:
                         returnedArray = _a.sent();
-                        assert.equal(returnedArray.length, expectedList.length, "array length does not match expected length");
+                        assert.equal(returnedArray.length, expectedList.length, 'array length does not match expected length');
                         for (i = 0; i < returnedArray.length; ++i) {
                             assert.equal(returnedArray[i].toNumber(), expectedList[i], "values in returned list and expected list don't match");
                         }
@@ -240,7 +240,7 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                 }
             });
         }); });
-        it("should return an empty list of units if units were not inserted", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return an empty list of units if units were not inserted', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, returnedArray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -250,52 +250,52 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                         return [4 /*yield*/, contractInstance.getAllAvailableUnits()];
                     case 2:
                         returnedArray = _a.sent();
-                        assert.equal(returnedArray.length, 0, "did not return empty array");
+                        assert.equal(returnedArray.length, 0, 'did not return empty array');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return a list of units if units were inserted", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return a list of units if units were inserted', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, returnedArray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserDescriptors.new()];
                     case 1:
                         contractInstance = _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("lb", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('lb', 150, { from: accounts[0] })];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("cm", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('cm', 150, { from: accounts[0] })];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("miles", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('miles', 150, { from: accounts[0] })];
                     case 4:
                         _a.sent();
                         return [4 /*yield*/, contractInstance.getAllAvailableUnits()];
                     case 5:
                         returnedArray = _a.sent();
-                        assert.equal(returnedArray.length, 3, "did not returned 3 unit array");
-                        assert.equal(returnedArray[0], "lb", "incorrect unit");
-                        assert.equal(returnedArray[1], "cm", "incorrect unit");
-                        assert.equal(returnedArray[2], "miles", "incorrect unit");
+                        assert.equal(returnedArray.length, 3, 'did not returned 3 unit array');
+                        assert.equal(returnedArray[0], 'lb', 'incorrect unit');
+                        assert.equal(returnedArray[1], 'cm', 'incorrect unit');
+                        assert.equal(returnedArray[2], 'miles', 'incorrect unit');
                         return [2 /*return*/];
                 }
             });
         }); });
-        it("should return empty list if called from another account", function () { return __awaiter(void 0, void 0, void 0, function () {
+        it('should return empty list if called from another account', function () { return __awaiter(void 0, void 0, void 0, function () {
             var contractInstance, returnedArray;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, UserDescriptors.new()];
                     case 1:
                         contractInstance = _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("lb", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('lb', 150, { from: accounts[0] })];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("cm", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('cm', 150, { from: accounts[0] })];
                     case 3:
                         _a.sent();
-                        return [4 /*yield*/, contractInstance.insertValue("miles", 150, { from: accounts[0] })];
+                        return [4 /*yield*/, contractInstance.insertValue('miles', 150, { from: accounts[0] })];
                     case 4:
                         _a.sent();
                         return [4 /*yield*/, contractInstance.getAllAvailableUnits({
@@ -303,7 +303,7 @@ contract("UserDescriptors test", function (accounts) { return __awaiter(void 0, 
                             })];
                     case 5:
                         returnedArray = _a.sent();
-                        assert.equal(returnedArray.length, 0, "did not returned 3 unit array");
+                        assert.equal(returnedArray.length, 0, 'did not returned 3 unit array');
                         return [2 /*return*/];
                 }
             });

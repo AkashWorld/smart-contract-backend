@@ -1,9 +1,9 @@
-import { UserDescriptorsContract } from "../types/truffle-contracts";
+import { UserDescriptorsContract } from '../types/truffle-contracts';
 
-const Descriptor = artifacts.require("UserDescriptors");
+const Descriptor = artifacts.require('UserDescriptors');
 
 module.exports = (deployer: {
-  deploy: (arg: UserDescriptorsContract) => void;
+	deploy: (arg: UserDescriptorsContract) => void;
 }) => {
-  deployer.deploy(Descriptor);
+	deployer.deploy(Descriptor);
 };
