@@ -1,13 +1,14 @@
 {
 	"name": "pop-desc-smart-contracts",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"description": "Smart contract backend based on the Etherium blockchain to model population descriptors.",
-	"main": "index.js",
+	"main": "index.ts",
 	"directories": {
 		"test": "test"
 	},
 	"scripts": {
 		"start": "ts-node src/index.ts",
+		"docs": "typedoc --out docs ./src",
 		"build": "tsc -p tsconfig.json && npm run build:truffle && npm run generate-types",
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
@@ -48,6 +49,7 @@
 		"tslint": "^5.20.0",
 		"tslint-config-prettier": "^1.18.0",
 		"typechain": "^0.3.21",
+		"typedoc": "^0.15.0",
 		"typescript": "^3.6.3"
 	},
 	"dependencies": {

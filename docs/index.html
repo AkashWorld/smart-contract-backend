@@ -1,0 +1,253 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>pop-desc-smart-contracts</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">pop-desc-smart-contracts</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> pop-desc-smart-contracts</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#smart-contract-service" id="smart-contract-service" style="color: inherit; text-decoration: none;">
+					<h1>Smart Contract Service</h1>
+				</a>
+				<p>The purpose of this repository is to demonstrate how to use smart contracts and any tools in the etherium development environment to successfully demo a working implementation of a smart contract. The smart contract created is a simple implementation of a storage for user&#39;s looking to store personal descriptors (weight, height, or any other units they want).</p>
+				<a href="#prepare-your-editor" id="prepare-your-editor" style="color: inherit; text-decoration: none;">
+					<h2>Prepare your editor</h2>
+				</a>
+				<p>The editor of choice is <a href="https://code.visualstudio.com/">VSCode</a> for its extensive support for JavaScript and TypeScript development. it is <strong>strongly</strong> suggested that you use it. Two <strong>MUST HAVE</strong> extensions for VSCode is TSLint (deprecated) and Prettier. TSLint catches errors and enforces policies for TypeScript code, and Prettier formats your code when you save to a standard format. Configurations for TSLint can be found at <a href="tslint">tslint.json</a>. Please ensure you are downloading the deprecated version of TSLint as that has Autosave functionality.</p>
+				<p><img src="./gifs/tslint.gif" alt=""></p>
+				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+					<h2>Install</h2>
+				</a>
+				<p>Ensure that you have the latest <a href="https://nodejs.org/en/">Node.js</a> installed.</p>
+				<p>Download <a href="https://www.trufflesuite.com/ganache">ganache</a> GUI. This is a local blockchain that you can run on your own computer for development/tests. There is a command line version that we use as well but this can be a lot easier to visualize.</p>
+				<p>Sometimes the compilation of some libraries can fail if you don&#39;t have a c/c++ compiler installed since the Solidity compiler needs it. For linux systems, ensure gcc/g++ is installed; for Windows install <a href="https://visualstudio.microsoft.com/vs/">VS2019</a> and ensure that you download the C++ windows toolchains.</p>
+				<p>Install all needed libraries with the following npm (Node Package Manager) command:</p>
+				<pre><code>npm install         # This will install <span class="hljs-keyword">all</span> dependencies listed <span class="hljs-keyword">in</span> <span class="hljs-keyword">package</span>.json <span class="hljs-keyword">in</span> ./node_modules</code></pre><p>To compile Smart Contracts, generate types for TypeScript from the Smart Contracts(to make development easier), and finally compiling TypeScript down to JavaScript, run the following:</p>
+				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> build       <span class="hljs-comment"># This should run automatically after npm install for the first time</span></span></code></pre>
+				<a href="#get-familiar-with-the-repository" id="get-familiar-with-the-repository" style="color: inherit; text-decoration: none;">
+					<h2>Get familiar with the repository</h2>
+				</a>
+				<p>All important scripts are documented to help understanding, granted there may be typos everywhere. Try to read the purpose of a particular file, class, or function and then try to read the code. This can be a daunting part and will not be done in the space of a few minutes. The directory structure is below for pointers on where to go.</p>
+				<p>(**) - Don&#39;t need to pay attention to or modify. Should look at everything else.</p>
+				<pre><code>.
+├── README.md
+├── bin         # Convenience scripts
+│   └── deploy-contracts.ts         # Script <span class="hljs-keyword">to</span> deploy all Smart Contracts <span class="hljs-keyword">to</span> <span class="hljs-keyword">local</span> blockchain
+├── contracts           # Contains all smart contracts
+│   ├── Migrations.sol          # This contract <span class="hljs-keyword">is</span> created <span class="hljs-keyword">and</span> needed by Truffle <span class="hljs-comment">(**)</span>
+│   └── UserDescriptors.sol         # This contract <span class="hljs-keyword">is</span> newly made
+├── gifs        # Contains cat gifs, ignore
+│   └── tslint.gif
+├── migrations      # Deployment scripts needed by Truffle (<span class="hljs-keyword">to</span> add new ones, prefix it <span class="hljs-keyword">with</span> another consecutive number)
+│   ├── <span class="hljs-number">1</span>_initial_migration.ts      # Created <span class="hljs-keyword">and</span> needed by Truffle <span class="hljs-comment">(**)</span>
+│   └── <span class="hljs-number">2</span>_user_desc_migration.ts
+├── package-lock.json       # <span class="hljs-keyword">Do</span> <span class="hljs-keyword">not</span> ever modify manually
+├── package.json        # Contains all dependencies <span class="hljs-keyword">and</span> scripts needed <span class="hljs-keyword">for</span> this project
+├── src         # MAIN source directory <span class="hljs-keyword">for</span> the main <span class="hljs-keyword">program</span>; currently it just invokes <span class="hljs-keyword">and</span> demos the smart contract
+│   ├── <span class="hljs-keyword">index</span>.ts        # Entry point <span class="hljs-keyword">of</span> the main <span class="hljs-keyword">program</span> (open <span class="hljs-keyword">and</span> <span class="hljs-keyword">read</span>)
+│   └── services
+│       └── user-descriptor-service.ts      # Abstraction/Wrapper <span class="hljs-keyword">for</span> UserDescriptors smart contract (open <span class="hljs-keyword">and</span> <span class="hljs-keyword">read</span>)
+├── test        # Contains all tests
+│   └── userDescriptors.ts      # Currently tests all operation <span class="hljs-keyword">of</span> the smart contract <span class="hljs-keyword">in</span> the blockchain
+├── truffle-config.js       # Configuration <span class="hljs-keyword">file</span> <span class="hljs-keyword">for</span> truffle <span class="hljs-comment">(**)</span>
+├── tsconfig.json       # Configuration <span class="hljs-keyword">file</span> <span class="hljs-keyword">for</span> the TypeScript compiler <span class="hljs-comment">(**)</span>
+├── tslint.json     # Configuration <span class="hljs-keyword">file</span> <span class="hljs-keyword">for</span> TSLint <span class="hljs-comment">(**)</span></code></pre><p>To get familiar with the repository and how we can use Smart Contracts, first look at the <a href="./contracts/UserDescriptors.sol">UserDescriptors</a> smart contract which was made to record descriptors for a particular user. After understanding what the contract does, look at some code that uses it from the JavaScript (TypeScript) perspective. The code for this is in the <a href="./src">src</a> directory. The entry point of the program is in <a href="./src/index.ts">index.ts</a> which uses a custom class in the same subdirectory to invoke the contract&#39;s methods in the blockchain.</p>
+				<p>To navigate through code between files and functions, just CTRL-Click on the variable/class/function of interest like so:</p>
+				<p><img src="./gifs/navigation.gif" alt=""></p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>When you first pull this repository, your current branch will be &quot;master&quot;; master is blocked from pushing to protect our code. When you want to make a new code change, ensure that you are on the master branch and do the following command:</p>
+				<pre><code><span class="hljs-attribute">git</span> pull        <span class="hljs-comment"># Ensures that you have the latest master changes</span></code></pre><p>Then create a NEW branch that will contain your change</p>
+				<pre><code>git checkout -b<span class="hljs-built_in"> new-branch-name </span>        <span class="hljs-comment">#Make sure your new branch name is descriptive of the feature you are working on (auth-request if you are working on an authorization request change).</span></code></pre><p>Then, after you are done making changes, ensure that you add to verify that your change works in an isolated environment by adding tests to the ./test directory. Finally, do the following to push your code to the branch to the remote repository (github).</p>
+				<pre><code>git <span class="hljs-keyword">add</span> .
+git status          #This <span class="hljs-keyword">is</span> optional, just ensure that <span class="hljs-keyword">ONLY</span> THE FILES that you need <span class="hljs-keyword">to</span> push <span class="hljs-keyword">show</span> <span class="hljs-keyword">when</span> you use this command
+git <span class="hljs-keyword">commit</span> -m "Added authorization request feature"     #A <span class="hljs-keyword">set</span> <span class="hljs-keyword">of</span> scripts will run just <span class="hljs-keyword">to</span> ensure formatting <span class="hljs-keyword">and</span> testing <span class="hljs-keyword">is</span> done <span class="hljs-keyword">before</span> this <span class="hljs-keyword">commit</span>
+git push <span class="hljs-comment">--set-upstream origin new-branch-name</span></code></pre><p>Finally, we want to ensure that the code we are pushing up is good code, and this is best done by peer review. To do this, go to github.com and go to your branch. Then create a new &quot;Pull Request&quot; which essentially means you are requesting to pull this branch into master. Ping someone to review and read your code, if there are things that could be fixed, address them and repush to your branch. Finally, when a reviewer approves your code, you have to merge into master from the github pull request UI.</p>
+				<p>For anyone new with git that is uncomfortable with the command line, take a look at this: <a href="https://www.sourcetreeapp.com/">Sourcetree</a>. Its perfectly fine to use either as long as you know what you are doing, its also okay to experiment as master is blocked. :D</p>
+				<a href="#misc" id="misc" style="color: inherit; text-decoration: none;">
+					<h2>Misc.</h2>
+				</a>
+				<p>To use any executable library installed with npm, you have to use npx (Node Package Executor). For example, the following will fail (if you didn&#39;t install it globally ofcourse)</p>
+				<pre><code>
+<span class="hljs-attribute">truffle</span> compile         <span class="hljs-comment"># This will only work if you install it globally (npm install --global truffle)</span>
+</code></pre><p>Instead, use npx to execute it</p>
+				<pre><code><span class="hljs-attribute">npx truffle compile</span>
+</code></pre><p>You can see all the available scripts that are available (and you can change) in the <a href="./package.json">package.json</a> file. Some scripts were made in the context of a bash shell (Linux) so it may not work with cmdline or powershell. If you are using Windows, I suggest using <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL</a> to use Linux in an Windows environment.</p>
+				<pre><code>"scripts": {
+    "start": "ts-node src/index.ts",        // starts the main program
+
+    "build": "tsc -p tsconfig.json &amp;&amp; npm run build:truffle &amp;&amp; npm run generate-types",
+
+    "build:typescript": "tsc --p tsconfig.json",
+
+    "build:truffle": "truffle compile",
+
+    "generate-types": "typechain --target truffle './build/**/contracts/*.json' &amp;&amp; typechain --target web3-1.0.0 './build/**/contracts/*.json'",        // generates TypeScript <span class="hljs-keyword">types</span> <span class="hljs-keyword">from</span> the Smart Contract <span class="hljs-keyword">to</span> make development easier
+
+    "postinstall": "npm run generate-types",        // runs <span class="hljs-keyword">after</span> <span class="hljs-string">'npm install'</span>
+
+    "migrate": "truffle migrate",       // uses truffle <span class="hljs-keyword">to</span> migrate contracts <span class="hljs-keyword">to</span> blockchain
+
+    "migrate:test": "truffle migrate --network test",       // uses truffle <span class="hljs-keyword">to</span> migrate contracts <span class="hljs-keyword">to</span> a test port (<span class="hljs-number">8545</span>)
+
+    "deploy:local": "ganache-cli &amp;",
+
+    "kill:local": "pkill -f '.*ganache-cli'",       //may break <span class="hljs-keyword">on</span> Windows, kills <span class="hljs-keyword">local</span> blockchain
+
+    "test": "npm run deploy:local &amp;&amp; truffle test --network test &amp;&amp; npm run kill:local"      // The last part may break <span class="hljs-keyword">on</span> windows
+}</code></pre><p>For example, to run the deploy:local script which deploys a local blockchain to port 7545, execute:</p>
+				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> deploy:<span class="hljs-built_in">local</span></span></code></pre>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>MIT</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_services_user_descriptor_service_.html">"services/user-<wbr>descriptor-<wbr>service"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
