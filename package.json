@@ -9,7 +9,7 @@
 	"scripts": {
 		"start": "ts-node src/index.ts",
 		"docs": "typedoc --out docs ./src",
-		"build": "tsc -p tsconfig.json && npm run build:truffle && npm run generate-types",
+		"build": "npm run build:truffle && npm run generate-types && npm run build:typescript",
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
 		"generate-types": "typechain --target truffle './build/**/contracts/*.json' && typechain --target web3-1.0.0 './build/**/contracts/*.json'",
