@@ -1,10 +1,17 @@
 /**
  * Khalid Akash - 2019
+ * This script deploys all smart contracts in ./contracts directory to a locally running
+ * blockchain (http://localhost:7545 by default) and writes their address to a JSON file
+ * in build/deployed-contracts.json.
  */
 import { spawnSync } from 'child_process';
 import fs from 'fs';
 import Web3 from 'web3';
 
+/**
+ * Can give port number as an argument in the Command Line, for example:
+ * npx ts-node ./bin/deploy-contracts.ts 9000
+ */
 let blockChainAddress: string = 'http://localhost:7545';
 if (process.argv.length > 2) {
 	blockChainAddress = 'http://localhost:' + process.argv[2];
@@ -34,7 +41,6 @@ if (
 const contractList = fs.readdirSync('./build/contracts');
 /**
  * Filter out all files in the directory that is not a JSON or does not have EVM bytecode
- * Finally, deploy the bytecode to the blockchain
  */
 const contractBytecodePair = contractList
 	.map(fileName => './build/contracts/' + fileName)
@@ -54,7 +60,7 @@ const contractBytecodePair = contractList
 
 /**
  * This function deploys the Smart Contracts to the blockchain and saves their addresses
- * in a JSON file
+ * in a JSON file in 'build/deployed-contracts.json'
  * https://web3js.readthedocs.io/en/v1.2.0/web3-eth-contract.html?highlight=deploy#deploy
  * @param contractByteCode The bytecode of the Smart Contract that will be deployed
  * to the EVM

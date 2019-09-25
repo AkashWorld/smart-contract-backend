@@ -1,8 +1,10 @@
 /**
- * This file will only run under the commmand {truffle test}. Truffle will
+ * Khalid Akash 2019
+ * This file will only run under the commmand {npx truffle test}. Truffle will
  * automatically add some global variables/functions to use to test the smart contract
- * in question, such as 'artifacts' and 'contract'. Truffle launches a small local blockchain
- * to run these tests.
+ * in question, such as 'artifacts' and 'contract'. YOU MUST HAVE A BLOCKCHAIN RUNNING
+ * WHEN CALLING THIS TEST. To do everything all in one go, run the following command
+ * 'npm test', which will run the blockchain, run the tests, and then kill the blockchain.
  * https://www.trufflesuite.com/docs/truffle/testing/writing-tests-in-javascript
  */
 import * as truffleTypes from '../types/truffle-contracts';
@@ -16,18 +18,25 @@ contract('UserDescriptors test', async accounts => {
 	/**
 	 * The unit test is in the form of:
 	 * it("what is this unit-testing for", function() that is performing the test)
-	 * The functions are asynchronous because it needs to connect to the local blockchain
+	 * The functions are asynchronous because it needs to connect to the local blockchain via the network
 	 * the function() is in the form of an arrow function: async function() {} is the same as async () => {}
 	 */
 	it('should return 0 when unit value does not exist', async () => {
 		/**
 		 * Always instantiate a new contract instance because we don't want the contracts keeping state between tests
+		 * Initialize a new contract just for this unit test
 		 */
 		const contractInstance = await UserDescriptors.new();
+		/**
+		 * Invoke a method in the contract (see ./contracts/UserDescriptors.sol for the actual contract)
+		 */
 		const returnedValue = await contractInstance.getLatestUnitValue('lb', {
 			from: accounts[0]
 		});
 
+		/**
+		 * If the two paramters given to assert.equal do not equal each other, the test will fail.
+		 */
 		assert.equal(
 			returnedValue.toNumber(),
 			0,

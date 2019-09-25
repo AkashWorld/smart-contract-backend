@@ -7,11 +7,6 @@ import * as TruffleContracts from ".";
 
 declare global {
   namespace Truffle {
-    interface Artifacts {
-      require(name: "Migrations"): TruffleContracts.MigrationsContract;
-      require(
-        name: "UserDescriptors"
-      ): TruffleContracts.UserDescriptorsContract;
-    }
+    interface Artifacts {}
   }
 }

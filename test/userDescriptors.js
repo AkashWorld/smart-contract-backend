@@ -60,6 +60,9 @@ contract('UserDescriptors test', function (accounts) { return __awaiter(void 0, 
                             })];
                     case 2:
                         returnedValue = _a.sent();
+                        /**
+                         * If the two paramters given to assert.equal do not equal each other, the test will fail.
+                         */
                         assert.equal(returnedValue.toNumber(), 0, 'did not return 0 when units did not exist');
                         return [2 /*return*/];
                 }
