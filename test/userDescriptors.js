@@ -45,7 +45,7 @@ contract('UserDescriptors test', function (accounts) { return __awaiter(void 0, 
         /**
          * The unit test is in the form of:
          * it("what is this unit-testing for", function() that is performing the test)
-         * The functions are asynchronous because it needs to connect to the local blockchain
+         * The functions are asynchronous because it needs to connect to the local blockchain via the network
          * the function() is in the form of an arrow function: async function() {} is the same as async () => {}
          */
         it('should return 0 when unit value does not exist', function () { return __awaiter(void 0, void 0, void 0, function () {
