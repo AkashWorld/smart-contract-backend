@@ -86,9 +86,6 @@ git status          #This is optional, just ensure that ONLY THE FILES that you 
 git commit -m "Added authorization request feature"     #A set of scripts will run just to ensure formatting and testing is done before this commit
 git push --set-upstream origin new-branch-name
 ```
-
-When commiting, you may notice that some other commands get run. Inspect the [package.json](./package.json) and you will notice that there is a "Husky" object that has a pre-commit attribute. The commands there are what runs before every commit to ensure there aren't any mistakes. First the linter runs to ensure that the core has no compile time errors, then the tests run to ensure nothing is failing.
-
 Finally, we want to ensure that the code we are pushing up is good code, and this is best done by peer review. To do this, go to github.com and go to your branch. Then create a new "Pull Request" which essentially means you are requesting to pull this branch into master. Ping someone to review and read your code, if there are things that could be fixed, address them and repush to your branch. Finally, when a reviewer approves your code, you have to merge into master from the github pull request UI.
 
 For anyone new with git that is uncomfortable with the command line, take a look at this: [Sourcetree](https://www.sourcetreeapp.com/). Its perfectly fine to use either as long as you know what you are doing, its also okay to experiment as master is blocked. :D
