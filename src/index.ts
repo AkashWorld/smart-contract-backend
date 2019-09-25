@@ -48,30 +48,32 @@ async function main() {
 	/**
 	 * Initialize the UserDescriptors service class. CTRL-Click on the class name to read what it does.
 	 */
-	const userDescClient = new UserDescriptorService(
+	const userDescriptorService = new UserDescriptorService(
 		userDescriptorAddress,
 		7545
 	);
 	// Get a random account thats avaialble in the node to test
-	const account = await userDescClient.getAccountAtIndex(0);
+	const account = await userDescriptorService.getAccountAtIndex(0);
 	// Insert a bunch of random units and values
-	userDescClient.insertValue(account, 'lb', 250);
-	userDescClient.insertValue(account, 'lb', 10);
-	userDescClient.insertValue(account, 'lb', 50);
-	userDescClient.insertValue(account, 'cm', 20);
-	userDescClient.insertValue(account, 'miles', 25);
-	userDescClient.insertValue(account, 'km', 10);
-	userDescClient.insertValue(account, 'm/ph', 60);
+	userDescriptorService.insertValue(account, 'lb', 250);
+	userDescriptorService.insertValue(account, 'lb', 10);
+	userDescriptorService.insertValue(account, 'lb', 50);
+	userDescriptorService.insertValue(account, 'cm', 20);
+	userDescriptorService.insertValue(account, 'miles', 25);
+	userDescriptorService.insertValue(account, 'km', 10);
+	userDescriptorService.insertValue(account, 'm/ph', 60);
 
 	// This is a global JS function that waits for a set amount of time before executing the function passed to it
 	// In this case, its 5000 ms (5 seconds)
 	// This is so the blockchain has time to digest and create the new blocks for every transaction above
 	setTimeout(async () => {
 		// Get all types of units the user entered
-		const units = await userDescClient.getAllAvailableUnitsForUser(account);
+		const units = await userDescriptorService.getAllAvailableUnitsForUser(
+			account
+		);
 		console.log(units);
 		// Get all values entered for the unit 'lb'
-		const lbvals = await userDescClient.getAllValuesRecordedForUnit(
+		const lbvals = await userDescriptorService.getAllValuesRecordedForUnit(
 			account,
 			'lb'
 		);
