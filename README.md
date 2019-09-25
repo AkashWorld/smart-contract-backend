@@ -12,6 +12,8 @@ The editor of choice is [VSCode](https://code.visualstudio.com/) for its extensi
 
 Ensure that you have the latest [Node.js](https://nodejs.org/en/) installed.
 
+Download [ganache](https://www.trufflesuite.com/ganache) GUI. This is a local blockchain that you can run on your own computer for development/tests. There is a command line version that we use as well but this can be a lot easier to visualize.
+
 Sometimes the compilation of some libraries can fail if you don't have a c/c++ compiler installed since the Solidity compiler needs it. For linux systems, ensure gcc/g++ is installed; for Windows install [VS2019](https://visualstudio.microsoft.com/vs/) and ensure that you download the C++ windows toolchains.
 
 Install all needed libraries with the following npm (Node Package Manager) command:
