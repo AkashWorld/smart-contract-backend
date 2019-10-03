@@ -4,30 +4,35 @@ on: [push, pull_request]
 
 jobs:
     build:
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
 
         steps:
+            - uses: actions/checkout@master
+            - name: Install
+              uses: actions/npm@master
+              with:
+                  args: install
             - name: Build
-              run: |
-                  npm install
-                  npm run build
+              uses: actions/npm@master
+              with:
+                  args: run build
             - name: Lint
-              run: |
-                  npm install
-                  npm run lint
-            - name: Unit Tests
-              run: |
-                  npm install
-                  npm test:unit
-            - name: Integration Tests
-              run: |
-                  npm install
-                  npm test:integration
+              uses: actions/npm@master
+              with:
+                  args: run lint
+            - name: Unit
+              uses: actions/npm@master
+              with:
+                  args: run test:unit
+            - name: Integration
+              uses: actions/npm@master
+              with:
+                  args: run test:integration
             - name: Coverage
-              run: |
-                  npm install
-                  npm run coverage
+              uses: actions/npm@master
+              with:
+                  args: run coverage
             - name: Docs
-              run: |
-                  npm install
-                  npm run docs
+              uses: actions/npm@master
+              with:
+                  args: run docs
