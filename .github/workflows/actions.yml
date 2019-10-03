@@ -1,0 +1,33 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+            - name: Build
+              run: |
+                  npm install
+                  npm run build
+            - name: Lint
+              run: |
+                  npm install
+                  npm run lint
+            - name: Unit Tests
+              run: |
+                  npm install
+                  npm test:unit
+            - name: Integration Tests
+              run: |
+                  npm install
+                  npm test:integration
+            - name: Coverage
+              run: |
+                  npm install
+                  npm run coverage
+            - name: Docs
+              run: |
+                  npm install
+                  npm run docs
