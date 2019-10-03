@@ -32,7 +32,3 @@ jobs:
         uses: actions/npm@master
         with:
           args: run coverage
-      - name: Docs
-        uses: actions/npm@master
-        with:
-          args: run docs
