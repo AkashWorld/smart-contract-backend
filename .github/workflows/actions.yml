@@ -1,0 +1,34 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Install
+        uses: actions/npm@master
+        with:
+          args: install
+      - name: Build
+        uses: actions/npm@master
+        with:
+          args: run build
+      - name: Lint
+        uses: actions/npm@master
+        with:
+          args: run lint
+      - name: Unit
+        uses: actions/npm@master
+        with:
+          args: run test:unit
+      - name: Integration
+        uses: actions/npm@master
+        with:
+          args: run test:integration
+      - name: Coverage
+        uses: actions/npm@master
+        with:
+          args: run coverage

@@ -19,11 +19,16 @@
 		"migrate:test": "truffle migrate --network test",
 		"deploy:local": "ganache-cli &",
 		"kill:local": "pkill -f '.*ganache-cli'",
-		"test": "npm run deploy:local && truffle test --network test && npm run kill:local"
+		"test": "npm run test:unit && npm run test:integration",
+		"test:unit": "mocha --require ts-node/register --recursive 'node-tests/unit/**/*.ts'",
+		"test:integration": "mocha --require ts-node/register --recursive 'node-tests/integration/**/*.ts'",
+		"coverage": "nyc mocha --require ts-node/register --recursive 'node-tests/**/*.ts'",
+		"lint": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
+		"test:truffle": "npm run deploy:local && truffle test --network test && npm run kill:local"
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": ""
+			"pre-commit": "npm run build && npm run lint && npm test && npm run coverage"
 		}
 	},
 	"keywords": [
@@ -36,6 +41,7 @@
 	"devDependencies": {
 		"@types/chai": "^4.2.3",
 		"@types/mocha": "^5.2.7",
+		"@types/supertest": "^2.0.8",
 		"@types/web3": "^1.0.19",
 		"chai": "^4.2.0",
 		"eslint": "^6.4.0",
@@ -43,6 +49,8 @@
 		"ganache-core": "^2.8.0",
 		"husky": "^3.0.5",
 		"mocha": "^6.2.0",
+		"nyc": "^14.1.1",
+		"supertest": "^4.0.2",
 		"truffle": "^5.0.37",
 		"truffle-typings": "^1.0.8",
 		"ts-node": "^8.4.1",
