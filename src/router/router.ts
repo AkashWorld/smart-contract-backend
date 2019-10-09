@@ -1,4 +1,4 @@
-import { Request, Response, Router, NextFunction } from 'Express';
+import { Request, Response, Router, NextFunction } from 'express';
 export let router: Router = Router();
 
 //for now just making the paths so that when the different pages set up we can fill in
