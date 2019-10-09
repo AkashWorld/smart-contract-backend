@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { helloWorld } from '../../../src';
+import { helloWorld } from '../../../src/server';
 
 describe('Hello World Unit Test', () => {
 	it("should return 'Hello, World' string", () => {
