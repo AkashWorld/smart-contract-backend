@@ -1,5 +1,11 @@
+/* keeps track of each page and navigations
+	 - gets express from express and router from ./router/router
+	 - will have all of the app functions such as app.use for loading pages or...
+	 	 ... app.post/app.get for working with front-end forms
+	 */
 
-import {router} from "./router/router"
+import {express} from "express";
+import {router} from "./router/router";
 
 export function helloWorld() {
 	return 'Hello, ' + 'World';
