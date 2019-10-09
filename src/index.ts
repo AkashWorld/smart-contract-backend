@@ -4,15 +4,14 @@
 	 	 ... app.post/app.get for working with front-end forms
 	 */
 
-import {Express} from "express";
+import express, {Express} from "express";
 import {router} from "./router/router";
 
 export function helloWorld() {
 	return 'Hello, ' + 'World';
 }
 
-var express:Express
-export const app = express();
+export const app = express():Express;
 	/* *Routes will be used to navigate through webapp, based on the url entry at the endpoint
 		 *LogIn is for the login page and its operations
 		 *EntryForm is the page where users will enter their data and a form will accept them
