@@ -5,12 +5,12 @@
 */
 
 import express,{Request,Response,Next} from "express";
-import {app} from "./index.ts";
+import {app} from "./index";
 
 
 // Didn't put in the environment varaible stuff as I don't know about them yet
 
-async function main():void{
+async function main(){
   const port = 8080;
   app.listen(port,function(){
     console.log(`Express server intialized on port ${port}`)

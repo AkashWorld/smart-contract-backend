@@ -1,5 +1,5 @@
 import express,{Request,Response,Next} from "express";
-import {router} from "./router"
+import {router} from "../router"
 
 export function helloWorld() {
 	return 'Hello, ' + 'World';
