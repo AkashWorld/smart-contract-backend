@@ -20,4 +20,8 @@ router.get('/EntryForm',function(req:Request,res:Response,next:Next){
 
 });
 
+router.get('/SubmitLabe',function(req:Request,res:Response,next:next){
+  
+});
+
 export default router;
