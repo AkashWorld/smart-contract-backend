@@ -1,4 +1,4 @@
-import { Request, Response, Router, Next } from 'express';
+import { Request, Response, Router, NextFunction } from 'Express';
 export let router: Router = Router();
 
 //for now just making the paths so that when the different pages set up we can fill in
@@ -8,12 +8,12 @@ export let router: Router = Router();
  * For ex: if loading a graph page, function to load the data will go where
  */
 
-router.get('/', function(req: Request, res: Response, next: Next) {});
+router.get('/', function(req: Request, res: Response, next: NextFunction) {});
 
-router.get('/LogIn', function(req: Request,res: Response,next: Next) {
+router.get('/LogIn', function(req: Request,res: Response,next: NextFunction) {
 
 });
 
-router.get('/EntryForm', function(req: Request,res: Response,next: Next) {
+router.get('/EntryForm', function(req: Request,res: Response,next: NextFunction) {
 
 });

@@ -4,7 +4,7 @@
 	 	 ... app.post/app.get for working with front-end forms
 	 */
 
-import {express} from "express";
+import {express} from "Express";
 import {router} from "./router/router";
 
 export function helloWorld() {
