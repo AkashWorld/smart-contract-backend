@@ -1,9 +1,9 @@
-import { makeExecutableSchema } from 'graphql-tools';
-import { typeDefs } from './schema';
-import { resolvers } from './resolvers';
-import { graphql } from 'graphql';
 import { Response } from 'express';
+import { graphql } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 import { IContext } from './context';
+import { resolvers } from './resolvers';
+import { typeDefs } from './schema';
 
 /**
  * Makes schema from schema definition (typeDefs) and resolvers (functions that resolve the requested query)

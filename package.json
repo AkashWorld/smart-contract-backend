@@ -7,7 +7,7 @@
 		"test": "test"
 	},
 	"scripts": {
-		"start": "ts-node src/index.ts",
+		"start": "ts-node src/server.ts",
 		"docs": "typedoc --out docs ./src",
 		"build": "npm run graphql && npm run build:truffle && npm run generate-types && npm run build:typescript",
 		"build:typescript": "tsc --p tsconfig.json",

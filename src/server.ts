@@ -1,5 +1,5 @@
-import express from 'express';
 import bodyparser from 'body-parser';
+import express from 'express';
 import { serveGraphQLRequest } from './graphql';
 
 const PORT = 8080;
