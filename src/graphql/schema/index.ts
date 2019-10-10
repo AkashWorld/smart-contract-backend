@@ -3,7 +3,7 @@ type Query {
 	_: Boolean
 }
 
-type Mtuation {
+type Mutation {
 	_: Boolean
 }
 
@@ -18,4 +18,4 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-`
+`;
