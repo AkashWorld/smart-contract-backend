@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { helloWorld } from '../../../src/index';
 
 describe('Hello World Unit Test', () => {
 	it("should return 'Hello, World' string", () => {
