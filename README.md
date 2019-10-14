@@ -22,11 +22,30 @@ Install all needed libraries with the following npm (Node Package Manager) comma
 npm install         # This will install all dependencies listed in package.json in ./node_modules
 ```
 
-To compile Smart Contracts, generate types for TypeScript from the Smart Contracts(to make development easier), and finally compiling TypeScript down to JavaScript, run the following:
+To generate the final **GraphQL Schema**, compile **Smart Contracts**, generate types for TypeScript from the Smart Contracts(to make development easier), and finally compiling TypeScript down to JavaScript, run the following:
 
 ```
 npm run build       # This should run automatically after npm install for the first time
 ```
+
+## Query the GraphQL API!
+
+The GraphQL API endpoint is the following
+
+```
+http://localhost:8080/graphql     #POST Request Only!
+```
+
+You can query the API after starting the server with
+
+```
+npm start
+```
+
+by using a [Altair GraphQL frontend client](https://altair.sirmuel.design/) (available in Chrome/Firefox/etc).
+
+It looks something like this:
+![](./gifs/graphql-client.png)
 
 ## Get familiar with the repository
 
@@ -88,6 +107,7 @@ git status          #This is optional, just ensure that ONLY THE FILES that you 
 git commit -m "Added authorization request feature"     #A set of scripts will run just to ensure formatting and testing is done before this commit
 git push --set-upstream origin new-branch-name
 ```
+
 Finally, we want to ensure that the code we are pushing up is good code, and this is best done by peer review. To do this, go to github.com and go to your branch. Then create a new "Pull Request" which essentially means you are requesting to pull this branch into master. Ping someone to review and read your code, if there are things that could be fixed, address them and repush to your branch. Finally, when a reviewer approves your code, you have to merge into master from the github pull request UI.
 
 For anyone new with git that is uncomfortable with the command line, take a look at this: [Sourcetree](https://www.sourcetreeapp.com/). Its perfectly fine to use either as long as you know what you are doing, its also okay to experiment as master is blocked. :D

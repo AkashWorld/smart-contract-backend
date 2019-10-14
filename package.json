@@ -7,9 +7,9 @@
 		"test": "test"
 	},
 	"scripts": {
-		"start": "ts-node src/index.ts",
+		"start": "ts-node src/server.ts",
 		"docs": "typedoc --out docs ./src",
-		"build": "npm run build:truffle && npm run generate-types && npm run build:typescript",
+		"build": "npm run graphql && npm run build:truffle && npm run generate-types && npm run build:typescript",
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
 		"generate-types": "typechain --target truffle './build/**/contracts/*.json' && typechain --target web3-1.0.0 './build/**/contracts/*.json'",
@@ -24,7 +24,8 @@
 		"test:integration": "mocha --require ts-node/register --recursive 'node-tests/integration/**/*.ts'",
 		"coverage": "nyc mocha --require ts-node/register --recursive 'node-tests/**/*.ts'",
 		"lint": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
-		"test:truffle": "npm run deploy:local && truffle test --network test && npm run kill:local"
+		"test:truffle": "npm run deploy:local && truffle test --network test && npm run kill:local",
+		"graphql": "ts-node ./bin/generate-graphql.ts"
 	},
 	"husky": {
 		"hooks": {
@@ -40,9 +41,11 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/chai": "^4.2.3",
+		"@types/lodash": "^4.14.144",
 		"@types/mocha": "^5.2.7",
 		"@types/supertest": "^2.0.8",
 		"@types/web3": "^1.0.19",
+		"@types/express": "^4.17.1",
 		"chai": "^4.2.0",
 		"eslint": "^6.4.0",
 		"ganache-cli": "^6.7.0",
@@ -61,8 +64,11 @@
 		"typescript": "^3.6.3"
 	},
 	"dependencies": {
-		"@types/express": "^4.17.1",
 		"bignumber.js": "^9.0.0",
+		"body-parser": "^1.19.0",
+		"graphql": "^14.5.8",
+		"graphql-tools": "^4.0.5",
+		"lodash": "^4.17.15",
 		"web3": "^1.2.1"
 	},
 	"prettier": {
