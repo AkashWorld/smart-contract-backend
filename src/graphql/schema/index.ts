@@ -18,4 +18,21 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-`;
+type Descriptor {
+	unit: String!
+	value: Float!
+	longitude: Float!
+	latitude: Float!
+	unixTimestamp: Int!
+}
+
+extend type Query {
+	getLatestUnitValue(unit: String!): Float!
+	getPaginatedDescriptors(
+		unit: String!
+		start: Int!
+		count: Int!
+	): [Descriptor!]!
+}
+
+`

@@ -6,6 +6,8 @@ import Web3 from 'web3';
 // tslint:disable-next-line:no-submodule-imports
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
+import contractAddressLoader from '../utilities/contract-address-loader';
+import BN from 'bn.js';
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -38,6 +40,8 @@ export class UserDescriptorService {
 	 */
 	private readonly contract: UserDescriptors;
 
+	private readonly DECIMAL_OFFSET: number = Math.pow(10, 4);
+
 	/**
 	 * Initializes the Web3 client that connects to the blockchain and creates the contract object.
 	 *
@@ -49,7 +53,10 @@ export class UserDescriptorService {
 	 * @param port Port in localhost (your personal computer) where the blockchain is running. Typically Ganache runs on port
 	 * 7545 in the GUI or 8545 on the CLI. You can change the configuration in the truffle-config.js.
 	 */
-	constructor(contractAddress: string, port: number) {
+	constructor(
+		contractAddress = contractAddressLoader('UserDescriptors'),
+		port = 7545
+	) {
 		// Prevent port greater that 2^16 (max)
 		if (port < Math.pow(2, 16)) {
 			this.providerLink = 'http://localhost:' + port.toString();
@@ -66,29 +73,34 @@ export class UserDescriptorService {
 	 * Abstraction for UserDescriptors (smart contract) method, insertValue(unit: string, value: number)
 	 * See ./contracts/UserDescriptors.sol for the actual contract method
 	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
-	 * @param unit A unit such as lb, cm, miles, kilometer, etc
-	 * @param value Quantity that of this particular unit
+	 * @param value Data needed to enter itno blockchain
 	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
 	 */
-	public insertValue(
+	public async insertValue(
 		accountId: string,
-		unit: string,
-		value: number,
+		value: {
+			unit: string;
+			value: number;
+			latitude: number | null;
+			longitude: number | null;
+		},
 		gas = 5_000_000
-	): void {
-		const transaction = this.contract.methods.insertValue(unit, value);
+	): Promise<void> {
+		if (value.latitude == null || value.longitude == null) {
+			value.latitude = 999;
+			value.longitude = 999;
+		}
+		const transaction = this.contract.methods.insertValue(
+			value.unit,
+			Math.floor(value.value * this.DECIMAL_OFFSET),
+			Math.floor(value.longitude * this.DECIMAL_OFFSET),
+			Math.floor(value.latitude * this.DECIMAL_OFFSET)
+		);
 		const txOptions: Tx = {
 			from: accountId,
 			gas
 		};
-		transaction
-			.send(txOptions)
-			.on('receipt', receipt => {
-				console.log(
-					`insertValue(${accountId}, ${unit}, ${value}) => Transaction event available ${receipt.transactionHash}`
-				);
-			})
-			.on('error', console.error);
+		return transaction.send(txOptions);
 	}
 
 	/**
@@ -111,7 +123,7 @@ export class UserDescriptorService {
 			.getLatestUnitValue(unit)
 			.call(txOptions)) as unknown) as string;
 
-		return parseInt(value, 10);
+		return parseInt(value, 10) / this.DECIMAL_OFFSET;
 	}
 
 	/**
@@ -125,7 +137,7 @@ export class UserDescriptorService {
 		accountId: string,
 		unit: string,
 		gas = 5_000_000
-	): Promise<number[]> {
+	): Promise<IDescriptor[]> {
 		const txOptions: Tx = {
 			from: accountId,
 			gas
@@ -134,7 +146,46 @@ export class UserDescriptorService {
 			.getAllUnitValues(unit)
 			.call(txOptions);
 		return stringArray.map(val => {
-			return parseInt((val as unknown) as string, 10);
+			return {
+				unit: unit,
+				value:
+					UserDescriptorService.BNToNumber(val.unitValue) /
+					this.DECIMAL_OFFSET,
+				longitude:
+					UserDescriptorService.BNToNumber(val.longitude) /
+					this.DECIMAL_OFFSET,
+				latitude:
+					UserDescriptorService.BNToNumber(val.latitude) /
+					this.DECIMAL_OFFSET,
+				unixTimestamp: UserDescriptorService.BNToNumber(val.time)
+			};
+		});
+	}
+
+	public async getPaginatedValuesRecordedForUnit(
+		accountId: string,
+		unit: string,
+		start = 0,
+		count = 50,
+		gas = 5_000_000
+	): Promise<IDescriptor[]> {
+		const stringArray = await this.contract.methods
+			.getPaginatedUnitValues(unit, start, count)
+			.call({ from: accountId, gas });
+		return stringArray.map(val => {
+			return {
+				unit: unit,
+				value:
+					UserDescriptorService.BNToNumber(val.unitValue) /
+					this.DECIMAL_OFFSET,
+				longitude:
+					UserDescriptorService.BNToNumber(val.longitude) /
+					this.DECIMAL_OFFSET,
+				latitude:
+					UserDescriptorService.BNToNumber(val.latitude) /
+					this.DECIMAL_OFFSET,
+				unixTimestamp: UserDescriptorService.BNToNumber(val.time)
+			};
 		});
 	}
 
@@ -182,4 +233,16 @@ export class UserDescriptorService {
 		);
 		return JSON.parse(rawJson.toString()).abi;
 	}
+
+	private static BNToNumber(val: BN): number {
+		return parseFloat((val as unknown) as string);
+	}
+}
+
+export interface IDescriptor {
+	unit: string;
+	value: number;
+	longitude: number;
+	latitude: number;
+	unixTimestamp: number;
 }

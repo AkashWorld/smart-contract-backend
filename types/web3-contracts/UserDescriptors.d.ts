@@ -23,9 +23,26 @@ export class UserDescriptors extends Contract {
   methods: {
     getLatestUnitValue(unit: string): TransactionObject<BN>;
 
-    getAllUnitValues(unit: string): TransactionObject<(BN)[]>;
+    getAllUnitValues(
+      unit: string
+    ): TransactionObject<
+      ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
+    >;
 
-    insertValue(unit: string, value: number | string): TransactionObject<void>;
+    getPaginatedUnitValues(
+      unit: string,
+      start: number | string,
+      count: number | string
+    ): TransactionObject<
+      ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
+    >;
+
+    insertValue(
+      unit: string,
+      value: number | string,
+      longitude: number | string,
+      latitude: number | string
+    ): TransactionObject<void>;
 
     getAllAvailableUnits(): TransactionObject<(string)[]>;
   };

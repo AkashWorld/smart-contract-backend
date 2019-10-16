@@ -8,11 +8,16 @@
  * https://www.trufflesuite.com/docs/truffle/testing/writing-tests-in-javascript
  */
 import * as truffleTypes from '../types/truffle-contracts';
+import BigNumber from 'bignumber.js';
 
 /**
  * User descriptors contract reference
  */
 const UserDescriptors = artifacts.require('UserDescriptors');
+
+function bigNumberToNumber(val: BigNumber): number {
+	return parseInt((val as unknown) as string);
+}
 
 contract('UserDescriptors test', async accounts => {
 	/**
@@ -46,7 +51,7 @@ contract('UserDescriptors test', async accounts => {
 	it('should return a value when inserted a value', async () => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 150;
-		await contractInstance.insertValue('lb', expectedVal, {
+		await contractInstance.insertValue('lb', expectedVal, 50, 50, {
 			from: accounts[0]
 		});
 
@@ -68,6 +73,8 @@ contract('UserDescriptors test', async accounts => {
 		await contractInstance.insertValue(
 			expectedVal1.unit,
 			expectedVal1.val,
+			50,
+			50,
 			{
 				from: accounts[0]
 			}
@@ -75,6 +82,8 @@ contract('UserDescriptors test', async accounts => {
 		await contractInstance.insertValue(
 			expectedVal2.unit,
 			expectedVal2.val,
+			50,
+			50,
 			{
 				from: accounts[0]
 			}
@@ -82,6 +91,8 @@ contract('UserDescriptors test', async accounts => {
 		await contractInstance.insertValue(
 			expectedVal3.unit,
 			expectedVal3.val,
+			50,
+			50,
 			{
 				from: accounts[0]
 			}
@@ -117,10 +128,18 @@ contract('UserDescriptors test', async accounts => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 150;
 		const key = 'lb';
-		await contractInstance.insertValue(key, 50, { from: accounts[0] });
-		await contractInstance.insertValue(key, 140, { from: accounts[0] });
-		await contractInstance.insertValue(key, 500, { from: accounts[0] });
-		await contractInstance.insertValue(key, 150, { from: accounts[0] });
+		await contractInstance.insertValue(key, 50, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue(key, 140, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue(key, 500, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue(key, 150, 50, 50, {
+			from: accounts[0]
+		});
 
 		const returnedValue = await contractInstance.getLatestUnitValue(key, {
 			from: accounts[0]
@@ -135,7 +154,9 @@ contract('UserDescriptors test', async accounts => {
 	it('should not return values that the account did not post', async () => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 0;
-		await contractInstance.insertValue('lb', 150, { from: accounts[0] });
+		await contractInstance.insertValue('lb', 150, 50, 50, {
+			from: accounts[0]
+		});
 
 		const returnedValue = await contractInstance.getLatestUnitValue('lb', {
 			from: accounts[1]
@@ -161,28 +182,45 @@ contract('UserDescriptors test', async accounts => {
 	});
 	it('should return a list full of values if values were inserted', async () => {
 		const contractInstance = await UserDescriptors.new();
-		const expectedList = [23, 435, 22, 150, 700, 20, 13];
+		const expectedValues = [23, 435, 22, 150, 700, 20, 13];
+		const expectedLong = [10, 20, 30, 40, 50, 60, 70];
+		const expectedLat = [100, 110, 90, 120, 80, 20, 5];
 		const key = 'lb';
-		for (const val of expectedList) {
-			await contractInstance.insertValue(key, val, {
-				from: accounts[0]
-			});
+		for (let i = 0; i < expectedValues.length; ++i) {
+			await contractInstance.insertValue(
+				key,
+				expectedValues[i],
+				expectedLong[i],
+				expectedLat[i],
+				{
+					from: accounts[0]
+				}
+			);
 		}
 
 		const returnedArray = await contractInstance.getAllUnitValues('lb', {
 			from: accounts[0]
 		});
 
+		console.log(returnedArray);
+
 		assert.equal(
 			returnedArray.length,
-			expectedList.length,
+			expectedValues.length,
 			'array length does not match expected length'
 		);
 		for (let i = 0; i < returnedArray.length; ++i) {
 			assert.equal(
-				returnedArray[i].toNumber(),
-				expectedList[i],
-				"values in returned list and expected list don't match"
+				bigNumberToNumber(returnedArray[i].unitValue),
+				expectedValues[i]
+			);
+			assert.equal(
+				bigNumberToNumber(returnedArray[i].latitude),
+				expectedLat[i]
+			);
+			assert.equal(
+				bigNumberToNumber(returnedArray[i].longitude),
+				expectedLong[i]
 			);
 		}
 	});
@@ -195,9 +233,15 @@ contract('UserDescriptors test', async accounts => {
 	});
 	it('should return a list of units if units were inserted', async () => {
 		const contractInstance = await UserDescriptors.new();
-		await contractInstance.insertValue('lb', 150, { from: accounts[0] });
-		await contractInstance.insertValue('cm', 150, { from: accounts[0] });
-		await contractInstance.insertValue('miles', 150, { from: accounts[0] });
+		await contractInstance.insertValue('lb', 150, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('cm', 150, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('miles', 150, 50, 50, {
+			from: accounts[0]
+		});
 
 		const returnedArray = await contractInstance.getAllAvailableUnits();
 
@@ -206,16 +250,67 @@ contract('UserDescriptors test', async accounts => {
 		assert.equal(returnedArray[1], 'cm', 'incorrect unit');
 		assert.equal(returnedArray[2], 'miles', 'incorrect unit');
 	});
+	it('should not return duplicate units if units were inserted', async () => {
+		const contractInstance = await UserDescriptors.new();
+		await contractInstance.insertValue('lb', 150, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('lb', 50, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('lb', 20, 50, 50, {
+			from: accounts[0]
+		});
+
+		const returnedArray = await contractInstance.getAllAvailableUnits();
+
+		assert.equal(returnedArray.length, 1, 'did not returned 1 unit array');
+		assert.equal(returnedArray[0], 'lb');
+	});
 	it('should return empty list if called from another account', async () => {
 		const contractInstance = await UserDescriptors.new();
-		await contractInstance.insertValue('lb', 150, { from: accounts[0] });
-		await contractInstance.insertValue('cm', 150, { from: accounts[0] });
-		await contractInstance.insertValue('miles', 150, { from: accounts[0] });
+		await contractInstance.insertValue('lb', 150, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('cm', 150, 50, 50, {
+			from: accounts[0]
+		});
+		await contractInstance.insertValue('miles', 150, 50, 50, {
+			from: accounts[0]
+		});
 
 		const returnedArray = await contractInstance.getAllAvailableUnits({
 			from: accounts[1]
 		});
 
 		assert.equal(returnedArray.length, 0, 'did not returned 3 unit array');
+	});
+	it('should return the correct amount and starting index for paginated list', async () => {
+		const contractInstance = await UserDescriptors.new();
+		const unitValues: number[] = [];
+		for (let i = 0; i < 50; ++i)
+			unitValues.push(Math.floor(Math.random() * 150));
+		for (let val of unitValues)
+			await contractInstance.insertValue('lb', val, 50, 50, {
+				from: accounts[0]
+			});
+
+		const returnedVals = await contractInstance.getPaginatedUnitValues(
+			'lb',
+			5,
+			10,
+			{
+				from: accounts[0]
+			}
+		);
+
+		let j = 0;
+		for (let i = 35; i < 45; ++i) {
+			assert.equal(
+				bigNumberToNumber(returnedVals[j].unitValue),
+				unitValues[i]
+			);
+			j += 1;
+		}
 	});
 });

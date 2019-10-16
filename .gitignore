@@ -3,6 +3,7 @@
 build
 **/*.js
 !truffle-config.js
+migrations/*.js
 # Logs
 logs
 *.log
