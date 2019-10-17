@@ -27,6 +27,7 @@ type Descriptor {
 }
 
 extend type Query {
+	getAllAvailableUnits: [String!]!
 	getLatestUnitValue(unit: String!): Float!
 	getPaginatedDescriptors(
 		unit: String!

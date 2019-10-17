@@ -9,5 +9,5 @@
 		"esModuleInterop": true,
 		"noImplicitAny": true
 	},
-	"exclude": ["bin"]
+	"exclude": ["bin", "node-tests"]
 }

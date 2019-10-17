@@ -1,13 +1,13 @@
 /**
  * Khalid Akash 2019
  */
+import BN from 'bn.js';
 import fs from 'fs';
 import Web3 from 'web3';
 // tslint:disable-next-line:no-submodule-imports
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
-import contractAddressLoader from '../utilities/contract-address-loader';
-import BN from 'bn.js';
+import loadContractAddress from '../utilities/contract-address-loader';
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -23,10 +23,10 @@ export class UserDescriptorService {
 	 */
 	private static readonly USER_DESCRIPTOR_ABI_PATH =
 		'build/contracts/UserDescriptors.json';
-	/**
-	 * Local link to our Etherium blockchain (local node)
-	 */
-	private readonly providerLink: string = 'http://localhost:8545';
+
+	private static BNToNumber(val: BN): number {
+		return parseFloat((val as unknown) as string);
+	}
 	/**
 	 * Web3 is the main JavaScript client that allows us to interact with nodes in the blockchain.
 	 * It is what Truffle uses in the backend, but we can invoke it directly to get more control and
@@ -44,29 +44,19 @@ export class UserDescriptorService {
 
 	/**
 	 * Initializes the Web3 client that connects to the blockchain and creates the contract object.
-	 *
-	 * @param contractAddress Address of the contract in the blockchain. If you do not know this address,
-	 * you can execute the following shell command (AFTER LAUNCHING THE LOCAL BLOCKCHAIN) 'npx ts-node ./bin/deploy-contracts.ts'
-	 * The script will deploy the contracts to the blockchain and write to the filesystem at ./build/deployed-contracts.json a JSON
-	 * object that contains all the contracts and their addresses; retrieve the address from there.
-	 *
-	 * @param port Port in localhost (your personal computer) where the blockchain is running. Typically Ganache runs on port
-	 * 7545 in the GUI or 8545 on the CLI. You can change the configuration in the truffle-config.js.
 	 */
 	constructor(
-		contractAddress = contractAddressLoader('UserDescriptors'),
-		port = 7545
+		web3Client = new Web3('http://localhost:7545'),
+		contract?: UserDescriptors
 	) {
-		// Prevent port greater that 2^16 (max)
-		if (port < Math.pow(2, 16)) {
-			this.providerLink = 'http://localhost:' + port.toString();
-		}
-		const provider = new Web3.providers.HttpProvider(this.providerLink);
-		this.web3Client = new Web3(provider);
-		this.contract = new this.web3Client.eth.Contract(
-			this.getContractAbi(),
-			contractAddress
-		) as UserDescriptors;
+		this.web3Client = web3Client;
+		this.contract =
+			contract == undefined
+				? (new this.web3Client.eth.Contract(
+						this.getContractAbi(),
+						loadContractAddress('UserDescriptors')
+				  ) as UserDescriptors)
+				: contract;
 	}
 
 	/**
@@ -147,7 +137,7 @@ export class UserDescriptorService {
 			.call(txOptions);
 		return stringArray.map(val => {
 			return {
-				unit: unit,
+				unit,
 				value:
 					UserDescriptorService.BNToNumber(val.unitValue) /
 					this.DECIMAL_OFFSET,
@@ -174,7 +164,7 @@ export class UserDescriptorService {
 			.call({ from: accountId, gas });
 		return stringArray.map(val => {
 			return {
-				unit: unit,
+				unit,
 				value:
 					UserDescriptorService.BNToNumber(val.unitValue) /
 					this.DECIMAL_OFFSET,
@@ -232,10 +222,6 @@ export class UserDescriptorService {
 			UserDescriptorService.USER_DESCRIPTOR_ABI_PATH
 		);
 		return JSON.parse(rawJson.toString()).abi;
-	}
-
-	private static BNToNumber(val: BN): number {
-		return parseFloat((val as unknown) as string);
 	}
 }
 

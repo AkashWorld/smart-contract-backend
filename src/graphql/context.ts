@@ -14,7 +14,7 @@ export class Context implements IContext {
 		this.accountId = accountId;
 	}
 
-	getEtheriumAccountId(): string {
+	public getEtheriumAccountId(): string {
 		return this.accountId;
 	}
 }
