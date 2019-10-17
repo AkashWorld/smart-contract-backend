@@ -68,27 +68,56 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
   getAllUnitValues(
     unit: string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<(BigNumber)[]>;
+  ): Promise<
+    ({
+      unitValue: BigNumber;
+      longitude: BigNumber;
+      latitude: BigNumber;
+      time: BigNumber;
+    })[]
+  >;
+
+  getPaginatedUnitValues(
+    unit: string,
+    start: number | BigNumber | string,
+    count: number | BigNumber | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<
+    ({
+      unitValue: BigNumber;
+      longitude: BigNumber;
+      latitude: BigNumber;
+      time: BigNumber;
+    })[]
+  >;
 
   insertValue: {
     (
       unit: string,
       value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse>;
     call(
       unit: string,
       value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
       unit: string,
       value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
       unit: string,
       value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
