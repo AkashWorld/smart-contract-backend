@@ -18,6 +18,14 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
+type Login{
+  signed_address: String!
+}
+
+extend type Query{
+  login(unsigned_address: String!): Login!
+}
+
 type Descriptor {
 	unit: String!
 	value: Float!
