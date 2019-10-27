@@ -29,6 +29,17 @@ app.post('/graphql', (req, res) => {
 	);
 });
 
+app.post('/login',(req,res)=>{
+	serveGraphQLRequest(
+		{
+			source: req.body.query,
+			operationName: req.body.operationName,
+			variableValues: req.body.vairables,
+			contextValue: new Context('')
+		},
+		res);
+});
+
 export const server = app.listen(PORT, () => {
 	console.log(`Express server initialized on port ${PORT}`);
 	console.log(
