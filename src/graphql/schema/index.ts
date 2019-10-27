@@ -32,9 +32,14 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-extend type Subscription {
-	helloWorldSubscription: HelloWorldEvent!
+type Login{
+  signed_address: String!
 }
+
+extend type Query{
+  login(unsigned_address: String!): Login!
+}
+
 type Descriptor {
 	unit: String!
 	value: Float!
