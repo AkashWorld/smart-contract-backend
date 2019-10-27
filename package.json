@@ -14,18 +14,20 @@
 		"build:truffle": "truffle compile",
 		"generate-types": "typechain --target truffle './build/**/contracts/*.json' && typechain --target web3-1.0.0 './build/**/contracts/*.json'",
 		"postinstall": "npm run build",
-		"migrate": "truffle migrate",
-		"migrate:test": "truffle migrate --network test",
+		"migrate": "tsc migrations/* && truffle migrate",
+		"migrate:test": "tsc migrations/* && truffle migrate --network test",
 		"deploy:local": "ganache-cli &",
 		"kill:local": "pkill -f '.*ganache-cli'",
 		"test": "npm run test:unit && npm run test:integration",
 		"test:unit": "mocha --require ts-node/register --recursive 'node-tests/unit/**/*.ts'",
 		"test:integration": "mocha --require ts-node/register --recursive 'node-tests/integration/**/*.ts'",
 		"coverage": "nyc mocha --require ts-node/register --recursive 'node-tests/**/*.ts'",
-		"lint": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
+		"lint:fix": "tslint --fix -c ./tslint.json 'src/**/*{.ts,.tsx}'",
+		"lint": "tslint -c ./tslint.json 'src/**/*{.ts,.tsx}'",
 		"test:truffle": "npm run deploy:local && truffle test --network test && npm run kill:local",
 		"graphql": "ts-node ./bin/generate-graphql.ts",
-		"clean": "rm -rf ./build"
+		"clean": "rm -rf ./build",
+		"format": "pretty-quick "
 	},
 	"husky": {
 		"hooks": {
@@ -54,6 +56,7 @@
 		"husky": "^3.0.5",
 		"mocha": "^6.2.0",
 		"nyc": "^14.1.1",
+		"pretty-quick": "^2.0.0",
 		"sinon": "^7.5.0",
 		"supertest": "^4.0.2",
 		"truffle": "^5.0.37",

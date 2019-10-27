@@ -3,6 +3,7 @@
  * What is a graphql resolver? https://www.apollographql.com/docs/apollo-server/data/data/#resolver-map
  * The schema that corresponds to this is in ../schema/hello-world.graphql
  */
+
 const resolver = {
 	Query: {
 		localizedHelloWorld: () => {
