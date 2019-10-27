@@ -2,6 +2,11 @@
   * This module recieves the etherium address from the caller and
   * returns a web3 signed string, this string will serve as the verification
   * key for authorization puroposes.
+
+  * web3.sign has an advantage of requiring to be linked with environment linked
+  * ganache to work, since only address web3 has access to will be signed.
+  * Address not within in the block will be entered in or rejected based on
+  * circumstances, will work on this part later.
 */
 
 import * as express from 'express';
