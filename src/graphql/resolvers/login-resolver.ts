@@ -4,19 +4,17 @@
 
 */
 
-
-import {loginDataInput} from '../../services/login/loginpost'
-
+import { loginDataInput } from '../../services/login/loginpost';
 
 const resolver = {
-  Query: {
-    login:(_:any,args:{unsigned_address:string},context:any) => {
-      let signedAddress = loginDataInput(args.unsigned_address);
-      return{
-        signed_address: signedAddress
-      };
-    }
-  }
+	Query: {
+		login: (_: any, args: { unsigned_address: string }, context: any) => {
+			let signedAddress = loginDataInput(args.unsigned_address);
+			return {
+				signed_address: signedAddress
+			};
+		}
+	}
 };
 
 export default resolver;

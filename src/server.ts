@@ -29,7 +29,7 @@ app.post('/graphql', (req, res) => {
 	);
 });
 
-app.post('/login',(req,res)=>{
+app.post('/login', (req, res) => {
 	serveGraphQLRequest(
 		{
 			source: req.body.query,
@@ -37,7 +37,8 @@ app.post('/login',(req,res)=>{
 			variableValues: req.body.vairables,
 			contextValue: new Context('')
 		},
-		res);
+		res
+	);
 });
 
 export const server = app.listen(PORT, () => {
