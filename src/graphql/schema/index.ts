@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export const typeDefs = `
 schema {
 	query: Query
@@ -5,6 +6,9 @@ schema {
 	subscription: Subscription
 }
 
+=======
+export const typeDefs = `
+>>>>>>> formatting changes
 type Query {
 	_: Boolean
 }
@@ -13,10 +17,13 @@ type Mutation {
 	_: Boolean
 }
 
+<<<<<<< HEAD
 type Subscription {
 	_: Boolean
 }
 
+=======
+>>>>>>> formatting changes
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -58,4 +65,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`
+`;
