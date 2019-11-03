@@ -1,7 +1,8 @@
 import bodyparser from 'body-parser';
 import express from 'express';
-import { serveGraphQLRequest } from './graphql';
+import { serveGraphQLRequest, createGraphQLSubscription } from './graphql';
 import { Context } from './graphql/context';
+import { createServer } from 'http';
 
 const PORT = 8080;
 
@@ -29,7 +30,10 @@ app.post('/graphql', (req, res) => {
 	);
 });
 
-export const server = app.listen(PORT, () => {
+export const server = createServer(app);
+
+server.listen(PORT, () => {
+	createGraphQLSubscription(server);
 	console.log(`Express server initialized on port ${PORT}`);
 	console.log(
 		`GraphQL requests are enabled on /graphql endpoint via POST requests`
