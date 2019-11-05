@@ -1,9 +1,19 @@
 export const typeDefs = `
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
+
 type Query {
 	_: Boolean
 }
 
 type Mutation {
+	_: Boolean
+}
+
+type Subscription {
 	_: Boolean
 }
 
@@ -14,10 +24,17 @@ type LocalizedHelloWorld {
 	javascript: String!
 }
 
+type HelloWorldEvent {
+	msg: String!
+}
+
 extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
+extend type Subscription {
+	helloWorldSubscription: HelloWorldEvent!
+}
 type Descriptor {
 	unit: String!
 	value: Float!
