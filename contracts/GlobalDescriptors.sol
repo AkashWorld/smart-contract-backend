@@ -1,56 +1,45 @@
 pragma solidity >=0.4.25 <0.6.0;
+pragma experimental ABIEncoderV2;
+
+/*
+removed reliance on address since it's global. 
+units array keeps track of which units we currently have.
+descriptorValues maps to struct arrays.
+
+*/
 
 contract globalDescriptor {
-    uint public storedData;
-    string public fName= 'suva';
-    uint public a;
-    uint public b;
-    address creator;
-    
-    
-     struct Users {
-        string name;
-    }
-    
-  struct data {
+    struct Descriptor {
         int unitValue;
         int longitude;
         int latitude;
         uint256 time;
-        Users User;
     }
 
-   
-   
-      struct Descriptor {
-        uint test;
-    }
-    
-    mapping (address => data) AllData;
-    
-    function getData(address _a) view public returns(int,int,int,uint256){
-        
-        var _data = AllData[_a];
-        return(_data.unitValue, _data.longitude, _data.latitude, _data.time );
-    }
-    
- 
-    
-     constructor() public {
-        creator = msg.sender;
-    }
-    
-    modifier onlyCreator(){
-         require(msg.sender == creator);
-        _;
-        
-    }
-    
-    function set(uint x) public {
-        storedData = x;
+    string[] units;
+
+
+
+    mapping(string => Descriptor[]) descriptorValues;
+
+
+
+
+    function insertValue(string unit, int value, int longitude, int latitude) public {
+        insertUnit(unit);
+        descriptorValues[unit].push(Descriptor({
+            unitValue: value,
+            longitude: longitude,
+            latitude: latitude,
+            time: block.timestamp
+        }));
     }
 
-    function get() public view returns (uint) {
-        return storedData;
+    
+    function insertUnit(string unit){
+     //add check if unit exists
+     units.push(unit);
+
     }
+
 }
