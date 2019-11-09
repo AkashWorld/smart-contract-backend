@@ -53,4 +53,13 @@ extend type Query {
 	): [Descriptor!]!
 }
 
+extend type Mutation {
+	insertValue(
+		unit: String!
+		value: Float!
+		longitude: Float
+		latitude: Float
+	): String!
+}
+
 `

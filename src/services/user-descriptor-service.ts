@@ -8,6 +8,8 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
 import loadContractAddress from '../utilities/contract-address-loader';
+import PromiEvent from 'web3/promiEvent';
+import { TransactionReceipt } from 'web3/types';
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -66,16 +68,16 @@ export class UserDescriptorService {
 	 * @param value Data needed to enter itno blockchain
 	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
 	 */
-	public async insertValue(
+	public insertValue(
 		accountId: string,
 		value: {
 			unit: string;
 			value: number;
-			latitude: number | null;
-			longitude: number | null;
+			latitude?: number;
+			longitude?: number;
 		},
 		gas = 5_000_000
-	): Promise<void> {
+	): PromiEvent<TransactionReceipt> {
 		if (value.latitude == null || value.longitude == null) {
 			value.latitude = 999;
 			value.longitude = 999;
@@ -90,7 +92,9 @@ export class UserDescriptorService {
 			from: accountId,
 			gas
 		};
-		return transaction.send(txOptions);
+		return (transaction.send(txOptions) as unknown) as PromiEvent<
+			TransactionReceipt
+		>;
 	}
 
 	/**

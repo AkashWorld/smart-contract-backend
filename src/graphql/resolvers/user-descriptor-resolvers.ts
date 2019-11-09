@@ -53,6 +53,30 @@ const resolver: IResolvers = {
 				args.count
 			);
 		}
+	},
+	Mutation: {
+		insertValue: async (
+			_,
+			args: {
+				unit: string;
+				value: number;
+				latitude?: number;
+				longitude?: number;
+			},
+			context: IContext
+		) => {
+			if (context == undefined) {
+				Promise.reject('User context not available');
+			}
+			const ethAccId = context.getEtheriumAccountId();
+			const reciept = await services.userDescriptorService.insertValue(
+				ethAccId,
+				{
+					...args
+				}
+			);
+			return reciept.transactionHash;
+		}
 	}
 };
 
