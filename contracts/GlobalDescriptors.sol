@@ -25,7 +25,7 @@ contract globalDescriptor {
 
 
 
-    function insertValue(string unit, int value, int longitude, int latitude) public {
+    function insertValue(string memory unit, int value, int longitude, int latitude) public {
         insertUnit(unit);
         descriptorValues[unit].push(Descriptor({
             unitValue: value,
