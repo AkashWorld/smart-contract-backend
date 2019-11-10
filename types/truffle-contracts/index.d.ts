@@ -4,6 +4,11 @@
 /// <reference types="truffle-typings" />
 import { BigNumber } from "bignumber.js";
 
+export interface GlobalDescriptorContract
+  extends Truffle.Contract<GlobalDescriptorInstance> {
+  "new"(meta?: Truffle.TransactionDetails): Promise<GlobalDescriptorInstance>;
+}
+
 export interface MigrationsContract
   extends Truffle.Contract<MigrationsInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<MigrationsInstance>;
@@ -12,6 +17,60 @@ export interface MigrationsContract
 export interface UserDescriptorsContract
   extends Truffle.Contract<UserDescriptorsInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<UserDescriptorsInstance>;
+}
+
+export interface GlobalDescriptorInstance extends Truffle.ContractInstance {
+  getLatestUnitValue(
+    unit: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<BigNumber>;
+
+  getAllUnitValues(
+    unit: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<
+    ({
+      unitValue: BigNumber;
+      longitude: BigNumber;
+      latitude: BigNumber;
+      time: BigNumber;
+    })[]
+  >;
+
+  insertValue: {
+    (
+      unit: string,
+      value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<Truffle.TransactionResponse>;
+    call(
+      unit: string,
+      value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<void>;
+    sendTransaction(
+      unit: string,
+      value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      unit: string,
+      value: number | BigNumber | string,
+      longitude: number | BigNumber | string,
+      latitude: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  getAllAvailableUnits(
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<(string)[]>;
 }
 
 export interface MigrationsInstance extends Truffle.ContractInstance {

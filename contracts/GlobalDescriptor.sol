@@ -16,17 +16,15 @@ contract GlobalDescriptor {
         uint256 time;
     }
 
-    string[] units;
+     string[] units;
 
 
 
     mapping(string => Descriptor[]) descriptorValues;
 
 
-/*
-
-    function insertValue(string memory unit, int value, int longitude, int latitude) public {
-       // insertUnit(unit);
+        function insertValue(string memory unit, int value, int longitude, int latitude) public {
+        insertUnit(unit);
         descriptorValues[unit].push(Descriptor({
             unitValue: value,
             longitude: longitude,
@@ -35,16 +33,46 @@ contract GlobalDescriptor {
         }));
     }
 
-    function test(string memory unit) public view returns (int) {
-        
-        return 0;
+    function doesUnitExist(string memory unit) private view returns (bool) {
+        for(uint i = 0; i < units.length; ++i) {
+            if(compareStrings(units[i], unit)) {
+                return true;
+            }
+        }
+        return false;
+    }
+      function compareStrings (string memory a, string memory b) private pure returns (bool) {
+        return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
     }
 
-    function insertUnit(string memory unit){
-     //add check if unit exists
-     units.push(unit);
 
+
+    function getLatestUnitValue(string memory unit) public view returns (int) {
+      if(doesUnitExist( unit) == false) {
+            return 0;
+        }
+        uint length = descriptorValues[unit].length;
+        return descriptorValues[unit][length - 1].unitValue;
     }
 
-*/
+    function getAllUnitValues(string memory unit) public view returns (Descriptor[] memory) {
+    if(doesUnitExist(unit) == false) {
+        return new Descriptor[](0);
+    }
+        return descriptorValues[unit];
+    }
+
+    function insertUnit(string memory unit) private {
+        for(uint i = 0; i < units.length; ++i) {
+            if(compareStrings(units[i], unit)) {
+                return;
+            }
+        }
+        units.push(unit);
+    }
+    
+        function getAllAvailableUnits() public view returns (string[] memory) {
+        return units;
+    }
+
 }

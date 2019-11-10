@@ -8,6 +8,9 @@ import * as TruffleContracts from ".";
 declare global {
   namespace Truffle {
     interface Artifacts {
+      require(
+        name: "GlobalDescriptor"
+      ): TruffleContracts.GlobalDescriptorContract;
       require(name: "Migrations"): TruffleContracts.MigrationsContract;
       require(
         name: "UserDescriptors"
