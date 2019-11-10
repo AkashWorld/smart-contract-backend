@@ -8,7 +8,7 @@ schema {
 
 =======
 export const typeDefs = `
->>>>>>> formatting changes
+>>>>>>> commit fo current account creation and login
 type Query {
 	_: Boolean
 }
@@ -23,7 +23,8 @@ type Subscription {
 }
 
 =======
->>>>>>> formatting changes
+
+>>>>>>> commit fo current account creation and login
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -39,12 +40,13 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-type Login{
-  signed_address: String!
+type Login {
+	signed_address: String!
 }
 
-extend type Query{
-  login(unsigned_address: String!): Login!
+extend type Query {
+	login(unsigned_address: String!): Login!
+	loginM : Login!
 }
 
 type Descriptor {
@@ -65,4 +67,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`;
+`

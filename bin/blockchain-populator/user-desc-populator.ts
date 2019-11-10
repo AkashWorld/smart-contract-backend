@@ -48,7 +48,11 @@ async function populateContractWithData(
 }
 
 async function main() {
-	const accountId = await accountLoader(undefined, 1);
+	let accounts = await web3.eth.getAccounts();
+	let acc_unlock = accounts[3];
+	console.log(acc_unlock);
+	web3.eth.personal.unlockAccount(acc_unlock, 'hello', 1000);
+	const accountId = await accountLoader(undefined, 3);
 	const userDescriptor = new UserDescriptorService();
 
 	await populateContractWithData(userDescriptor, accountId);
