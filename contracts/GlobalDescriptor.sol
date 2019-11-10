@@ -8,7 +8,7 @@ descriptorValues maps to struct arrays.
 
 */
 
-contract globalDescriptor {
+contract GlobalDescriptor {
     struct Descriptor {
         int unitValue;
         int longitude;
@@ -23,10 +23,10 @@ contract globalDescriptor {
     mapping(string => Descriptor[]) descriptorValues;
 
 
-
+/*
 
     function insertValue(string memory unit, int value, int longitude, int latitude) public {
-        insertUnit(unit);
+       // insertUnit(unit);
         descriptorValues[unit].push(Descriptor({
             unitValue: value,
             longitude: longitude,
@@ -36,10 +36,11 @@ contract globalDescriptor {
     }
 
     
-    function insertUnit(string unit){
+    function insertUnit(string memory unit){
      //add check if unit exists
      units.push(unit);
 
     }
 
+*/
 }

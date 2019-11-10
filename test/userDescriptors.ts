@@ -26,7 +26,7 @@ contract('UserDescriptors test', async accounts => {
 	 * The functions are asynchronous because it needs to connect to the local blockchain via the network
 	 * the function() is in the form of an arrow function: async function() {} is the same as async () => {}
 	 */
-	it('should return 0 when unit value does not exist', async () => {
+	it.only('should return 0 when unit value does not exist', async () => {
 		/**
 		 * Always instantiate a new contract instance because we don't want the contracts keeping state between tests
 		 * Initialize a new contract just for this unit test
