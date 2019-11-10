@@ -35,7 +35,11 @@ contract GlobalDescriptor {
         }));
     }
 
-    
+    function test(string memory unit) public view returns (int) {
+        
+        return 0;
+    }
+
     function insertUnit(string memory unit){
      //add check if unit exists
      units.push(unit);
