@@ -18,12 +18,13 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-type Login{
-  signed_address: String!
+type Login {
+	signed_address: String!
 }
 
-extend type Query{
-  login(unsigned_address: String!): Login!
+extend type Query {
+	login(unsigned_address: String!): Login!
+	loginM : Login!
 }
 
 type Descriptor {
@@ -44,4 +45,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`;
+`
