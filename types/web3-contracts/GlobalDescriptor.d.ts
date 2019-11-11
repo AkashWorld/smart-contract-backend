@@ -29,6 +29,14 @@ export class GlobalDescriptor extends Contract {
       ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
     >;
 
+    getPaginatedUnitValues(
+      unit: string,
+      start: number | string,
+      count: number | string
+    ): TransactionObject<
+      ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
+    >;
+
     insertValue(
       unit: string,
       value: number | string,

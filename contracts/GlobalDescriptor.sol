@@ -23,14 +23,14 @@ contract GlobalDescriptor {
     mapping(string => Descriptor[]) descriptorValues;
 
 
-        function insertValue(string memory unit, int value, int longitude, int latitude) public {
-        insertUnit(unit);
-        descriptorValues[unit].push(Descriptor({
-            unitValue: value,
-            longitude: longitude,
-            latitude: latitude,
-            time: block.timestamp
-        }));
+    function insertValue(string memory unit, int value, int longitude, int latitude) public {
+     insertUnit(unit);
+     descriptorValues[unit].push(Descriptor({
+          unitValue: value,
+          longitude: longitude,
+          latitude: latitude,
+         time: block.timestamp
+     }));
     }
 
     function doesUnitExist(string memory unit) private view returns (bool) {
@@ -41,7 +41,8 @@ contract GlobalDescriptor {
         }
         return false;
     }
-      function compareStrings (string memory a, string memory b) private pure returns (bool) {
+
+    function compareStrings (string memory a, string memory b) private pure returns (bool) {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
     }
 
@@ -56,9 +57,9 @@ contract GlobalDescriptor {
     }
 
     function getAllUnitValues(string memory unit) public view returns (Descriptor[] memory) {
-    if(doesUnitExist(unit) == false) {
-        return new Descriptor[](0);
-    }
+        if(doesUnitExist(unit) == false) {
+         return new Descriptor[](0);
+        }
         return descriptorValues[unit];
     }
 
@@ -73,6 +74,21 @@ contract GlobalDescriptor {
     
         function getAllAvailableUnits() public view returns (string[] memory) {
         return units;
+    }
+
+        function getPaginatedUnitValues(string memory unit, uint start, uint count) public view returns (Descriptor[] memory) {
+        if(doesUnitExist(unit) == false) {
+            return new Descriptor[](0);
+        }
+        Descriptor[] memory ret = new Descriptor[](count);
+        uint len = descriptorValues[unit].length;
+        uint end = len - start;
+        uint j = 0;
+        for(uint i = len - start - count; i < end; i++) {
+            ret[j] = descriptorValues[unit][i];
+            j += 1;
+        }
+        return ret;
     }
 
 }

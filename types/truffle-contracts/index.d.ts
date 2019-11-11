@@ -37,6 +37,20 @@ export interface GlobalDescriptorInstance extends Truffle.ContractInstance {
     })[]
   >;
 
+  getPaginatedUnitValues(
+    unit: string,
+    start: number | BigNumber | string,
+    count: number | BigNumber | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<
+    ({
+      unitValue: BigNumber;
+      longitude: BigNumber;
+      latitude: BigNumber;
+      time: BigNumber;
+    })[]
+  >;
+
   insertValue: {
     (
       unit: string,

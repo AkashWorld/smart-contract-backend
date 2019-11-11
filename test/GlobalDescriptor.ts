@@ -232,6 +232,38 @@ contract('GlobalDescriptor test', async accounts => {
 
 		assert.equal(returnedArray.length, 1, 'did not returned 1 unit array');
 		assert.equal(returnedArray[0], 'lb');
+    });
+    it('should return the correct amount and starting index for paginated list', async () => {
+		const contractInstance = await GlobalDescriptor.new();
+		const unitValues: number[] = [];
+		for (let i = 0; i < 50; ++i){
+            unitValues.push(Math.floor(Math.random() * 150));
+        }
+			
+		for (let val of unitValues){
+            await contractInstance.insertValue('lb', val, 50, 50, {
+				from: accounts[0]
+			});
+        }
+		
+
+		const returnedVals = await contractInstance.getPaginatedUnitValues(
+			'lb',
+			5,
+			10,
+			{
+				from: accounts[0]
+			}
+		);
+
+		let j = 0;
+		for (let i = 35; i < 45; ++i) {
+			assert.equal(
+				bigNumberToNumber(returnedVals[j].unitValue),
+				unitValues[i]
+			);
+			j += 1;
+		}
 	});
     
 
