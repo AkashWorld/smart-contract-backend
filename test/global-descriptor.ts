@@ -8,27 +8,19 @@ function bigNumberToNumber(val: BigNumber): number {
 }
 
 contract('GlobalDescriptor test', async accounts => {
-    it('should return 0 when unit value does not exist', async () => {
-	
+	it('should return 0 when unit value does not exist', async () => {
 		const contractInstance = await GlobalDescriptor.new();
-      /* 
-        console.log(contractInstance.address);
-        assert(contractInstance.address !== '');
 
-        
-    */
-    
-   const returnedValue = await contractInstance.getLatestUnitValue('lb', {
-    from: accounts[0]
-    });
-    assert.equal(
-        returnedValue.toNumber(),
-        0,
-        'did not return 0 when units did not exist'
-    );
-
-    });
-    it('should return a value when inserted a value', async () => {
+		const returnedValue = await contractInstance.getLatestUnitValue('lb', {
+			from: accounts[0]
+		});
+		assert.equal(
+			returnedValue.toNumber(),
+			0,
+			'did not return 0 when units did not exist'
+		);
+	});
+	it('should return a value when inserted a value', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedVal = 150;
 		await contractInstance.insertValue('lb', expectedVal, 50, 50, {
@@ -44,8 +36,8 @@ contract('GlobalDescriptor test', async accounts => {
 			expectedVal,
 			'did not return the latest recorded value from unit lb'
 		);
-    });
-    it.only('should return the correct pair of values per unit', async () => {
+	});
+	it.only('should return the correct pair of values per unit', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedVal1 = { unit: 'lb', val: 150 };
 		const expectedVal2 = { unit: 'inch', val: 12 };
@@ -103,8 +95,8 @@ contract('GlobalDescriptor test', async accounts => {
 			30,
 			'returned value is not the same as the input value, 30'
 		);
-    });
-    it('should return most recent values of multiple inserted values', async () => {
+	});
+	it('should return most recent values of multiple inserted values', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedVal = 150;
 		const key = 'lb';
@@ -130,8 +122,8 @@ contract('GlobalDescriptor test', async accounts => {
 			expectedVal,
 			'last inserted value is not returned value'
 		);
-    });
-    it('should return an empty list if the unit does not exist', async () => {
+	});
+	it('should return an empty list if the unit does not exist', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const returnedArray = await contractInstance.getAllUnitValues('lb', {
 			from: accounts[0]
@@ -142,8 +134,8 @@ contract('GlobalDescriptor test', async accounts => {
 			0,
 			'array length is not 0, expected empty'
 		);
-    });
-    it('should return a list full of values if values were inserted', async () => {
+	});
+	it('should return a list full of values if values were inserted', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedValues = [23, 435, 22, 150, 700, 20, 13];
 		const expectedLong = [10, 20, 30, 40, 50, 60, 70];
@@ -186,15 +178,15 @@ contract('GlobalDescriptor test', async accounts => {
 				expectedLong[i]
 			);
 		}
-    });
-    it('should return an empty list of units if units were not inserted', async () => {
+	});
+	it('should return an empty list of units if units were not inserted', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 
 		const returnedArray = await contractInstance.getAllAvailableUnits();
 
 		assert.equal(returnedArray.length, 0, 'did not return empty array');
-    });
-    it('should return a list of units if units were inserted', async () => {
+	});
+	it('should return a list of units if units were inserted', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		await contractInstance.insertValue('lb', 150, 50, 50, {
 			from: accounts[0]
@@ -212,8 +204,8 @@ contract('GlobalDescriptor test', async accounts => {
 		assert.equal(returnedArray[0], 'lb', 'incorrect unit');
 		assert.equal(returnedArray[1], 'cm', 'incorrect unit');
 		assert.equal(returnedArray[2], 'miles', 'incorrect unit');
-    });
-    it('should not return duplicate units if units were inserted', async () => {
+	});
+	it('should not return duplicate units if units were inserted', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		await contractInstance.insertValue('lb', 150, 50, 50, {
 			from: accounts[0]
@@ -229,20 +221,19 @@ contract('GlobalDescriptor test', async accounts => {
 
 		assert.equal(returnedArray.length, 1, 'did not returned 1 unit array');
 		assert.equal(returnedArray[0], 'lb');
-    });
-    it('should return the correct amount and starting index for paginated list', async () => {
+	});
+	it('should return the correct amount and starting index for paginated list', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const unitValues: number[] = [];
-		for (let i = 0; i < 50; ++i){
-            unitValues.push(Math.floor(Math.random() * 150));
-        }
-			
-		for (let val of unitValues){
-            await contractInstance.insertValue('lb', val, 50, 50, {
+		for (let i = 0; i < 50; ++i) {
+			unitValues.push(Math.floor(Math.random() * 150));
+		}
+
+		for (let val of unitValues) {
+			await contractInstance.insertValue('lb', val, 50, 50, {
 				from: accounts[0]
 			});
-        }
-		
+		}
 
 		const returnedVals = await contractInstance.getPaginatedUnitValues(
 			'lb',
@@ -262,12 +253,4 @@ contract('GlobalDescriptor test', async accounts => {
 			j += 1;
 		}
 	});
-    
-
-
-
-
-
-
-
 });
