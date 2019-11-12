@@ -37,7 +37,7 @@ contract('GlobalDescriptor test', async accounts => {
 			'did not return the latest recorded value from unit lb'
 		);
 	});
-	it.only('should return the correct pair of values per unit', async () => {
+	it('should return the correct pair of values per unit', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedVal1 = { unit: 'lb', val: 150 };
 		const expectedVal2 = { unit: 'inch', val: 12 };
