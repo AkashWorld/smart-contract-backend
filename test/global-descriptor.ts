@@ -1,9 +1,6 @@
 import * as truffleTypes from '../types/truffle-contracts';
 import BigNumber from 'bignumber.js';
 
-/**
- * User descriptors contract reference
- */
 const GlobalDescriptor = artifacts.require('GlobalDescriptor');
 
 function bigNumberToNumber(val: BigNumber): number {
@@ -48,7 +45,7 @@ contract('GlobalDescriptor test', async accounts => {
 			'did not return the latest recorded value from unit lb'
 		);
     });
-    it('should return the correct pair of values per unit', async () => {
+    it.only('should return the correct pair of values per unit', async () => {
 		const contractInstance = await GlobalDescriptor.new();
 		const expectedVal1 = { unit: 'lb', val: 150 };
 		const expectedVal2 = { unit: 'inch', val: 12 };
@@ -103,7 +100,7 @@ contract('GlobalDescriptor test', async accounts => {
 		);
 		assert.equal(
 			returnedVal3.toNumber(),
-			23,
+			30,
 			'returned value is not the same as the input value, 30'
 		);
     });

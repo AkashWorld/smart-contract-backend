@@ -49,7 +49,7 @@ contract GlobalDescriptor {
 
 
     function getLatestUnitValue(string memory unit) public view returns (int) {
-      if(doesUnitExist( unit) == false) {
+        if(doesUnitExist( unit) == false) {
             return 0;
         }
         uint length = descriptorValues[unit].length;
@@ -72,11 +72,11 @@ contract GlobalDescriptor {
         units.push(unit);
     }
     
-        function getAllAvailableUnits() public view returns (string[] memory) {
+    function getAllAvailableUnits() public view returns (string[] memory) {
         return units;
     }
 
-        function getPaginatedUnitValues(string memory unit, uint start, uint count) public view returns (Descriptor[] memory) {
+    function getPaginatedUnitValues(string memory unit, uint start, uint count) public view returns (Descriptor[] memory) {
         if(doesUnitExist(unit) == false) {
             return new Descriptor[](0);
         }
