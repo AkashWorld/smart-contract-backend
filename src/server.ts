@@ -23,7 +23,7 @@ app.post('/graphql', (req, res) => {
 			operationName: req.body.operationName,
 			variableValues: req.body.variables,
 			contextValue: new Context(
-				'0x09fd9523039175C6B7c5838C729BD3e52Ee4D251'
+				'0x844F5762819445BcA86ef5448447Be8B685C26D3'
 			)
 		},
 		res

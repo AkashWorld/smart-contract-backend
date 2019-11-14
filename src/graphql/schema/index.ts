@@ -17,6 +17,23 @@ type Subscription {
 	_: Boolean
 }
 
+enum Trend {
+	UP
+	SAME
+	DOWN
+}
+
+type DailyTrend {
+	unit: String!
+	value: Float!
+	trend: Trend
+}
+
+extend type Query {
+	getDailyWeight: DailyTrend
+	getDailyBMI: DailyTrend
+}
+
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
