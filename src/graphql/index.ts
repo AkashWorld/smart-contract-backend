@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { graphql } from 'graphql';
 import { makeExecutableSchema } from 'graphql-tools';
-import { IContext } from './context';
+import { IContext, Context } from './context';
 import { resolvers } from './resolvers';
 import { typeDefs } from './schema';
 import { execute, subscribe } from 'graphql';
@@ -46,7 +46,7 @@ export function serveGraphQLRequest(
  * to the client rather than having to wait for all the data to arrive at the backend
  * before pushing it to the client).
  * ws://localhost:8080/subscriptions
- * 
+ *
  * A conceptual overview can be found on https://graphql.org/blog/subscriptions-in-graphql-and-relay/
  * @param server http server, usually created from an express instance
  */
@@ -55,7 +55,15 @@ export function createGraphQLSubscription(server: Server) {
 		{
 			execute,
 			subscribe,
-			schema: schema
+			schema: schema,
+			onConnect: (params: any) => {
+				if (!params.authorization) return null;
+				const context = new Context(params.authorization);
+				console.log(
+					`ws://onConnect: (authorization) => accountId: ${context.getEtheriumAccountId()}`
+				);
+				return context;
+			}
 		},
 		{
 			server: server,
