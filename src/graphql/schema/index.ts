@@ -1,4 +1,8 @@
 export const typeDefs = `
+extend type Query {
+	getBalance: Float!
+}
+
 schema {
 	query: Query
 	mutation: Mutation

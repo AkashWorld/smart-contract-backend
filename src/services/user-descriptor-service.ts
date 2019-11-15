@@ -9,6 +9,9 @@ import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
 import loadContractAddress from '../utilities/contract-address-loader';
 import { TRANSACTION_TYPE } from '../graphql/resolvers/user-descriptor-resolvers';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -47,7 +50,7 @@ export class UserDescriptorService {
 	 * Initializes the Web3 client that connects to the blockchain and creates the contract object.
 	 */
 	constructor(
-		web3Client = new Web3('http://localhost:7545'),
+		web3Client = new Web3(process.env.BLOCKCHAIN_URL),
 		contract?: UserDescriptors
 	) {
 		this.web3Client = web3Client;

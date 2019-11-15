@@ -3,8 +3,11 @@ import express from 'express';
 import { serveGraphQLRequest, createGraphQLSubscription } from './graphql';
 import { Context } from './graphql/context';
 import { createServer } from 'http';
+import dotenv from 'dotenv';
 
-const PORT = 8080;
+dotenv.config();
+
+const PORT = process.env.PORT;
 
 const app = express();
 
@@ -23,7 +26,7 @@ app.post('/graphql', (req, res) => {
 			operationName: req.body.operationName,
 			variableValues: req.body.variables,
 			contextValue: new Context(
-				'0x844F5762819445BcA86ef5448447Be8B685C26D3'
+				'0x19B4ED919081720a753337546284bA7075F21fE6'
 			)
 		},
 		res
