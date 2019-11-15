@@ -93,7 +93,7 @@ type InsertValueResponse {
 }
 
 extend type Subscription {
-	insertValueSubscription(transactionHash: String!): InsertValueResponse!
+	insertValueSubscription: InsertValueResponse!
 }
 
 `
