@@ -79,4 +79,21 @@ extend type Mutation {
 	): String!
 }
 
+enum TransactionResponse {
+	TRANSACTION_HASH
+	CONFIRMATION
+	RECIEPT
+	ERROR
+}
+
+type InsertValueResponse {
+	transactionHash: String!
+	responseType: TransactionResponse!
+	message: String!
+}
+
+extend type Subscription {
+	insertValueSubscription(transactionHash: String!): InsertValueResponse!
+}
+
 `
