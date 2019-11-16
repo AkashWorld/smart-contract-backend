@@ -7,6 +7,19 @@ type Mutation {
 	_: Boolean
 }
 
+type Create {
+  newKey: String!
+}
+
+type CreateAlt{
+  success_msg: String!
+}
+
+extend type Query {
+  createNewAccount : Create!
+  createAccount(privateKey:String!): CreateAlt!
+}
+
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -22,9 +35,13 @@ type Login {
 	signed_address: String!
 }
 
+type Verify{
+	address: String!
+}
+
 extend type Query {
 	login(unsigned_address: String!): Login!
-	loginM : Login!
+	loginMM(signed_address: String!) : Verify!
 }
 
 type Descriptor {
