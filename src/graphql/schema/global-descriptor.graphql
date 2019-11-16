@@ -1,23 +1,17 @@
-type Descriptor {
-	unit: String!
-	value: Float!
-	longitude: Float!
-	latitude: Float!
-	unixTimestamp: Int!
-}
+
 
 extend type Query {
-	getAllAvailableUnits: [String!]!
-	getLatestUnitValue(unit: String!): Float!
-	getPaginatedDescriptors(
+	getAllAvailableUnitsGlobal: [String!]!
+	getLatestUnitValueGlobal(unit: String!): Float!
+	getPaginatedDescriptorsGlobal(
 		unit: String!
 		start: Int!
 		count: Int!
 	): [Descriptor!]!
 }
-// Not needed but for testing
+
 extend type Mutation {
-	insertValue(
+	insertValueGlobal(
 		unit: String!
 		value: Float!
 		longitude: Float
@@ -25,19 +19,3 @@ extend type Mutation {
 	): String!
 }
 
-enum TransactionResponse {
-	TRANSACTION_HASH
-	CONFIRMATION
-	RECIEPT
-	ERROR
-}
-
-type InsertValueResponse {
-	transactionHash: String!
-	responseType: TransactionResponse!
-	message: String!
-}
-
-extend type Subscription {
-	insertValueSubscription: InsertValueResponse!
-}
