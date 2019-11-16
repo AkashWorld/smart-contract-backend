@@ -2,12 +2,12 @@ import { GlobalDescriptorService } from './global-descriptor-service';
 import { UserDescriptorService } from './user-descriptor-service';
 
 interface IServiceMap {
-	lobalDescriptorService: GlobalDescriptorService;
+	globalDescriptorService: GlobalDescriptorService;
 	userDescriptorService: UserDescriptorService;
 }
 
 const serviceMap: IServiceMap = {
-	lobalDescriptorService: new GlobalDescriptorService(),
+	globalDescriptorService: new GlobalDescriptorService(),
 	userDescriptorService: new UserDescriptorService()
 };
 
