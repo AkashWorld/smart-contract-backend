@@ -1,0 +1,12 @@
+type Create {
+  newKey: String!
+}
+
+type CreateAlt{
+  success_msg: String!
+}
+
+extend type Query {
+  createNewAccount : Create!
+  createAccount(privateKey:String!): CreateAlt!
+}

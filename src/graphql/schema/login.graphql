@@ -2,7 +2,11 @@ type Login {
 	signed_address: String!
 }
 
+type Verify{
+	address: String!
+}
+
 extend type Query {
 	login(unsigned_address: String!): Login!
-	loginM : Login!
+	loginMM(signed_address: String!) : Verify!
 }

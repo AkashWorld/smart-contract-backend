@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export const typeDefs = `
 schema {
 	query: Query
@@ -6,9 +5,6 @@ schema {
 	subscription: Subscription
 }
 
-=======
-export const typeDefs = `
->>>>>>> commit fo current account creation and login
 type Query {
 	_: Boolean
 }
@@ -17,14 +13,25 @@ type Mutation {
 	_: Boolean
 }
 
-<<<<<<< HEAD
 type Subscription {
 	_: Boolean
 }
 
 =======
+type Create {
+  newKey: String!
+}
 
->>>>>>> commit fo current account creation and login
+type CreateAlt{
+  success_msg: String!
+}
+
+extend type Query {
+  createNewAccount : Create!
+  createAccount(privateKey:String!): CreateAlt!
+}
+
+>>>>>>> Login and Account creation nearly finished
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -44,9 +51,13 @@ type Login {
 	signed_address: String!
 }
 
+type Verify{
+	address: String!
+}
+
 extend type Query {
 	login(unsigned_address: String!): Login!
-	loginM : Login!
+	loginMM(signed_address: String!) : Verify!
 }
 
 type Descriptor {
