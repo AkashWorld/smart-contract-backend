@@ -141,8 +141,8 @@ export class GlobalDescriptorService {
 	}
 
 	/**
-	 * Abstraction for UserDescriptors (smart contract) method, getAllValuesRecordedForUnit(unit: string): number[]
-	 * See ./contracts/UserDescriptors.sol for the actual contract method
+	 * Abstraction for GlobalDescriptors (smart contract) method, getAllValuesRecordedForUnit(unit: string): number[]
+	 * See ./contracts/GlobalDescriptors.sol for the actual contract method
 	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
 	 * @param unit A unit such as lb, cm, miles, kilometer, etc
 	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.

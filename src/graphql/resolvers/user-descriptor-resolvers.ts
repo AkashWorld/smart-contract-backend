@@ -21,6 +21,20 @@ const insertionSubscription = new PubSub();
 
 const resolver: IResolvers = {
 	Query: {
+		getValuesForUnit: async(
+			_,
+			args: { unit: string },
+			context: IContext	
+		): Promise<IDescriptor[]> => {
+			if (context == undefined) {
+				Promise.reject('User context not available');
+			}
+			const ethAccId = context.getEtheriumAccountId();
+			return services.userDescriptorService.getAllValuesRecordedForUnit(
+				ethAccId,
+				args.unit
+			);
+		},
 		getAllAvailableUnits: async (_, __, context) => {
 			if (context == undefined) {
 				return Promise.reject('User context not available');

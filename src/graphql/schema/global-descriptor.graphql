@@ -1,6 +1,7 @@
 
 
 extend type Query {
+	getValuesForUnitGlobal(unit: String!): [Descriptor!]!
 	getAllAvailableUnitsGlobal: [String!]!
 	getLatestUnitValueGlobal(unit: String!): Float!
 	getPaginatedDescriptorsGlobal(

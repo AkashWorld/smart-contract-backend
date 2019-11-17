@@ -2,7 +2,7 @@ import { IResolvers } from 'graphql-tools';
 import services from '../../services';
 import { IContext } from '../context';
 import { PubSub } from 'graphql-subscriptions';
-
+import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 
 export interface IDescriptor {
 	unit: String;
@@ -18,11 +18,43 @@ export enum TRANSACTION_TYPE {
 	CONFIRMATION,
 	ERROR
 }
+/*
+interface IServiceMap {
+	globalDescriptorService: GlobalDescriptorService;
+	
+}
+class service{
+	 public serviceMap: IServiceMap = {
+		globalDescriptorService: new GlobalDescriptorService(),
+		
+	};
+	constructor(){
+
+	}
+
+	
+
+}
+*/
 
 const insertionSubscription = new PubSub();
-
+//const globalDescriptorService = new GlobalDescriptorService();
 const resolver: IResolvers = {
 	Query: {
+		getValuesForUnitGlobal: async(
+			_,
+			args: { unit: string },
+			context: IContext	
+		): Promise<IDescriptor[]> => {
+			if (context == undefined) {
+				Promise.reject('User context not available');
+			}
+			const ethAccId = context.getEtheriumAccountId();
+			return services.globalDescriptorService.getAllValuesRecordedForUnit(
+				ethAccId,
+				args.unit
+			);
+		},
 		getLatestUnitValueGlobal: async (
 			_,
 			args: { unit: string },
@@ -48,41 +80,7 @@ const resolver: IResolvers = {
 				ethAccId
 			);
 		},
-	/**
-	 * Abstraction for UserDescriptors (smart contract) method, getAllValuesRecordedForUnit(unit: string): number[]
-	 * See ./contracts/UserDescriptors.sol for the actual contract method
-	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
-	 * @param unit A unit such as lb, cm, miles, kilometer, etc
-	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
-	 */
-	public async getAllValuesRecordedForUnit(
-		accountId: string,
-		unit: string,
-		gas = 5_000_000
-	): Promise<IDescriptor[]> {
-		const txOptions: Tx = {
-			from: accountId,
-			gas
-		};
-		const stringArray = await this.contract.methods
-			.getAllUnitValues(unit)
-			.call(txOptions);
-		return stringArray.map(val => {
-			return {
-				unit,
-				value:
-					UserDescriptorService.BNToNumber(val.unitValue) /
-					this.DECIMAL_OFFSET,
-				longitude:
-					UserDescriptorService.BNToNumber(val.longitude) /
-					this.DECIMAL_OFFSET,
-				latitude:
-					GlobalDescriptorService.BNToNumber(val.latitude) /
-					this.DECIMAL_OFFSET,
-				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
-			};
-		});
-	}
+
 		
 
 		
