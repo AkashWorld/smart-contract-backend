@@ -105,8 +105,8 @@ const resolver: IResolvers = {
 		}
 		
 	},
-
-	
+	// Uncomment to enable insertion directly into global for testing. insertValue will add to global
+	/*
 	Mutation: {
 		insertValueGlobal: async (
 			_,
@@ -138,6 +138,7 @@ const resolver: IResolvers = {
 			);
 		}
 	},
+	*/
 	Subscription: {
 		insertValueSubscription: {
 			subscribe: (_: any, __: any, context: IContext) => {
