@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { GlobalDescriptor } from '../../types/web3-contracts/GlobalDescriptor';
 import loadContractAddress from '../utilities/contract-address-loader';
-import { TRANSACTION_TYPE } from '../graphql/resolvers/user-descriptor-resolvers';
+import { TRANSACTION_TYPE } from '../graphql/resolvers/global-descriptor-resolvers';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -99,6 +99,111 @@ export class GlobalDescriptorService {
 				.on('error', err => reject(err.message));
 		});
 	}
+
+	/**
+	 * Abstraction for GlobalDescriptors (smart contract) method, getLatestValueForUnit(unit: string): number
+	 * See ./contracts/GlobalDescriptors.sol for the actual contract method
+	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
+	 * @param unit A unit such as lb, cm, miles, kilometer, etc
+	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
+	 */
+	public async getLatestValueForUnit(
+		accountId: string,
+		unit: string,
+		gas = 5_000_000
+	): Promise<number> {
+		const txOptions: Tx = {
+			from: accountId,
+			gas
+		};
+		const value = ((await this.contract.methods
+			.getLatestUnitValue(unit)
+			.call(txOptions)) as unknown) as string;
+
+		return parseInt(value, 10) / this.DECIMAL_OFFSET;
+	}
+
+	/**
+	 * Abstraction for GlobalDescriptors (smart contract) method, getAllAvailableUnitForGlobal(): string[]
+	 * See ./contracts/GlobalDescriptors.sol for the actual contract method
+	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
+	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
+	 */
+	public async getAllAvailableUnitsForGlobal(
+		accountId: string,
+		gas = 5_000_000
+	) {
+		const txOptions: Tx = {
+			from: accountId,
+			gas
+		};
+		return this.contract.methods.getAllAvailableUnits().call(txOptions);
+	}
+
+	/**
+	 * Abstraction for UserDescriptors (smart contract) method, getAllValuesRecordedForUnit(unit: string): number[]
+	 * See ./contracts/UserDescriptors.sol for the actual contract method
+	 * @param accountId ID of the account sending the request (Local blockchain autogenerates 10 accounts to use)
+	 * @param unit A unit such as lb, cm, miles, kilometer, etc
+	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
+	 */
+	public async getAllValuesRecordedForUnit(
+		accountId: string,
+		unit: string,
+		gas = 5_000_000
+	): Promise<IDescriptor[]> {
+		const txOptions: Tx = {
+			from: accountId,
+			gas
+		};
+		const stringArray = await this.contract.methods
+			.getAllUnitValues(unit)
+			.call(txOptions);
+		return stringArray.map(val => {
+			return {
+				unit,
+				value:
+					GlobalDescriptorService.BNToNumber(val.unitValue) /
+					this.DECIMAL_OFFSET,
+				longitude:
+					GlobalDescriptorService.BNToNumber(val.longitude) /
+					this.DECIMAL_OFFSET,
+				latitude:
+					GlobalDescriptorService.BNToNumber(val.latitude) /
+					this.DECIMAL_OFFSET,
+				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
+			};
+		});
+	}
+
+	public async getPaginatedValuesRecordedForUnit(
+		accountId: string,
+		unit: string,
+		start = 0,
+		count = 50,
+		gas = 5_000_000
+	): Promise<IDescriptor[]> {
+		const stringArray = await this.contract.methods
+			.getPaginatedUnitValues(unit, start, count)
+			.call({ from: accountId, gas });
+		return stringArray.map(val => {
+			return {
+				unit,
+				value:
+					GlobalDescriptorService.BNToNumber(val.unitValue) /
+					this.DECIMAL_OFFSET,
+				longitude:
+				GlobalDescriptorService.BNToNumber(val.longitude) /
+					this.DECIMAL_OFFSET,
+				latitude:
+				GlobalDescriptorService.BNToNumber(val.latitude) /
+					this.DECIMAL_OFFSET,
+				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
+			};
+		});
+	}
+
+
 
 
 	/**
