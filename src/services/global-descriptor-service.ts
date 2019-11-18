@@ -203,25 +203,6 @@ export class GlobalDescriptorService {
 		});
 	}
 
-
-
-
-	/**
-	 * Gets all the accounts in the blockchain and returns the ID of the account at
-	 * a certain index in the returned array.
-	 */
-	public async getAccountAtIndex(index: number): Promise<string> {
-		const accounts = await this.web3Client.eth.getAccounts();
-		if (accounts.length <= index || index < 0) {
-			return Promise.reject(
-				Error(
-					'index specified is out of bounds of length of the accounts array'
-				)
-			);
-		}
-		return accounts[index];
-	}
-
 	public insertValueAsync(
 		accountId: string,
 		value: {

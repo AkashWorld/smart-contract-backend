@@ -4,8 +4,10 @@ import { IContext } from '../context';
 import { PubSub } from 'graphql-subscriptions';
 import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 
+const globalDescriptor = new GlobalDescriptorService();
+
 export interface IDescriptor {
-	unit: String;
+	unit: string;
 	value: number;
 	longitude: number;
 	latitude: number;
@@ -18,27 +20,9 @@ export enum TRANSACTION_TYPE {
 	CONFIRMATION,
 	ERROR
 }
-/*
-interface IServiceMap {
-	globalDescriptorService: GlobalDescriptorService;
-	
-}
-class service{
-	 public serviceMap: IServiceMap = {
-		globalDescriptorService: new GlobalDescriptorService(),
-		
-	};
-	constructor(){
-
-	}
-
-	
-
-}
-*/
 
 const insertionSubscription = new PubSub();
-//const globalDescriptorService = new GlobalDescriptorService();
+
 const resolver: IResolvers = {
 	Query: {
 		getValuesForUnitGlobal: async(
@@ -50,7 +34,7 @@ const resolver: IResolvers = {
 				Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.globalDescriptorService.getAllValuesRecordedForUnit(
+			return globalDescriptor.getAllValuesRecordedForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -61,10 +45,10 @@ const resolver: IResolvers = {
 			context: IContext
 		): Promise<number> => {
 			if (context == undefined) {
-				return Promise.reject('Global context not available');
+				return Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.globalDescriptorService.getLatestValueForUnit(
+			return globalDescriptor.getLatestValueForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -76,7 +60,7 @@ const resolver: IResolvers = {
 				return Promise.reject('Global context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.globalDescriptorService.getAllAvailableUnitsForGlobal(
+			return globalDescriptor.getAllAvailableUnitsForGlobal(
 				ethAccId
 			);
 		},
@@ -96,7 +80,7 @@ const resolver: IResolvers = {
 				Promise.reject('Invalid count argument');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.globalDescriptorService.getPaginatedValuesRecordedForUnit(
+			return globalDescriptor.getPaginatedValuesRecordedForUnit(
 				ethAccId,
 				args.unit,
 				args.start,
@@ -105,40 +89,7 @@ const resolver: IResolvers = {
 		}
 		
 	},
-	// Uncomment to enable insertion directly into global for testing. insertValue will add to global
-	/*
-	Mutation: {
-		insertValueGlobal: async (
-			_,
-			args: {
-				unit: string;
-				value: number;
-				latitude?: number;
-				longitude?: number;
-			},
-			context: IContext
-		) => {
-			if (context == undefined) {
-				Promise.reject('Global context not available');
-			}
-			const ethAccId = context.getEtheriumAccountId();
-			return services.globalDescriptorService.insertValueAsync(
-				ethAccId,
-				{ ...args },
-				(transactionHash, transactionType, message) => {
-					const insertValueSubscription = {
-						transactionHash,
-						responseType: transactionType,
-						message
-					};
-					insertionSubscription.publish(ethAccId, {
-						insertValueSubscription
-					});
-				}
-			);
-		}
-	},
-	*/
+	
 	Subscription: {
 		insertValueSubscription: {
 			subscribe: (_: any, __: any, context: IContext) => {
