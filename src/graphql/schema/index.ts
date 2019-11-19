@@ -19,16 +19,11 @@ type Subscription {
 
 =======
 type Create {
-  newKey: String!
-}
-
-type CreateAlt{
-  success_msg: String!
+	newKey: String!
 }
 
 extend type Query {
-  createNewAccount : Create!
-  createAccount(privateKey:String!): CreateAlt!
+	createNewAccount(privateKey: String!): Create!
 }
 
 >>>>>>> Login and Account creation nearly finished
@@ -51,13 +46,13 @@ type Login {
 	signed_address: String!
 }
 
-type Verify{
+type Verify {
 	address: String!
 }
 
 extend type Query {
 	login(unsigned_address: String!): Login!
-	loginMM(signed_address: String!) : Verify!
+	loginMM(signed_address: String!): Verify!
 }
 
 type Descriptor {

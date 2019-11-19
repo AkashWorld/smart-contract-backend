@@ -48,9 +48,6 @@ async function populateContractWithData(
 }
 
 async function main() {
-
-
-
 	const accountId = await accountLoader(undefined, 1);
 	const userDescriptor = new UserDescriptorService();
 

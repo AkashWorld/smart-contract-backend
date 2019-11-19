@@ -1,12 +1,7 @@
 type Create {
-  newKey: String!
-}
-
-type CreateAlt{
-  success_msg: String!
+	newKey: String!
 }
 
 extend type Query {
-  createNewAccount : Create!
-  createAccount(privateKey:String!): CreateAlt!
+	createNewAccount(privateKey: String!): Create!
 }

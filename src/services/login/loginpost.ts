@@ -26,7 +26,7 @@ if (typeof web3 !== 'undefined') {
 
 // uses the web3 sign function to create signed token
 export async function loginDataInput(address: string) {
-	let signed_address = await web3.eth.sign(
+	const signed_address = await web3.eth.sign(
 		'Auth',
 		address,
 		(err: any, result: any) => {

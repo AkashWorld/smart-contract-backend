@@ -22,9 +22,7 @@ app.post('/graphql', (req, res) => {
 			source: req.body.query,
 			operationName: req.body.operationName,
 			variableValues: req.body.variables,
-			contextValue: new Context(
-				'0x09fd9523039175C6B7c5838C729BD3e52Ee4D251'
-			)
+			contextValue: new Context('') // place in here the signed message as a string
 		},
 		res
 	);
