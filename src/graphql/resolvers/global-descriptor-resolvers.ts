@@ -1,27 +1,13 @@
 import { IResolvers } from 'graphql-tools';
-import services from '../../services';
 import { IContext } from '../context';
 import { PubSub } from 'graphql-subscriptions';
 import { GlobalDescriptorService } from '../../services/global-descriptor-service';
-
-const globalDescriptor = new GlobalDescriptorService();
-
-export interface IDescriptor {
-	unit: string;
-	value: number;
-	longitude: number;
-	latitude: number;
-	unixTimestamp: number;
-}
-
-export enum TRANSACTION_TYPE {
-	TRANSACTION_HASH,
-	RECIEPT,
-	CONFIRMATION,
-	ERROR
-}
+import { IDescriptor } from './user-descriptor-resolvers';
+import { TRANSACTION_TYPE } from './user-descriptor-resolvers';
 
 const insertionSubscription = new PubSub();
+
+const globalDescriptorService = new GlobalDescriptorService();
 
 const resolver: IResolvers = {
 	Query: {
@@ -34,7 +20,7 @@ const resolver: IResolvers = {
 				Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return globalDescriptor.getAllValuesRecordedForUnit(
+			return globalDescriptorService.getAllValuesRecordedForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -48,7 +34,7 @@ const resolver: IResolvers = {
 				return Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return globalDescriptor.getLatestValueForUnit(
+			return globalDescriptorService.getLatestValueForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -60,7 +46,7 @@ const resolver: IResolvers = {
 				return Promise.reject('Global context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return globalDescriptor.getAllAvailableUnitsForGlobal(
+			return globalDescriptorService.getAllAvailableUnitsForGlobal(
 				ethAccId
 			);
 		},
@@ -80,7 +66,7 @@ const resolver: IResolvers = {
 				Promise.reject('Invalid count argument');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return globalDescriptor.getPaginatedValuesRecordedForUnit(
+			return globalDescriptorService.getPaginatedValuesRecordedForUnit(
 				ethAccId,
 				args.unit,
 				args.start,
@@ -89,7 +75,7 @@ const resolver: IResolvers = {
 		}
 		
 	},
-	
+
 	Subscription: {
 		insertValueSubscription: {
 			subscribe: (_: any, __: any, context: IContext) => {
