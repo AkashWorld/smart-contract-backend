@@ -1,7 +1,0 @@
-type Create {
-	newKey: String!
-}
-
-extend type Query {
-	createNewAccount(privateKey: String!): Create!
-}

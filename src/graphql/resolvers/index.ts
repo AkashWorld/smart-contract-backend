@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import createNewAccountResolver from './create_account_resolver';
+import createNewAccountResolver from './create-account-resolver';
 import helloWorldResolver from './hello-world-resolver';
 import loginResolver from './login-resolver';
 import userDescriptorResolver from './user-descriptor-resolvers';

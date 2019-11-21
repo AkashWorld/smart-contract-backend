@@ -1,5 +1,4 @@
-import { LoginMM } from '../../services/login/loginMMService';
-import { loginDataInput } from '../../services/login/loginpost';
+import { verify } from '../../services/login/verification-service';
 
 /**
  *Resolver obtains the unsigned_address from the query request
@@ -8,10 +7,10 @@ import { loginDataInput } from '../../services/login/loginpost';
  */
 
 const resolver = {
-	Query: {
-		loginMM: (_: any, args: { signed_address: string }, context: any) => {
-			console.log(args.signed_address);
-			const ret_address = LoginMM(args.signed_address);
+	Mutation: {
+		verify: (_: any, args: { signed_message: string }, context: any) => {
+			console.log(args.signed_message);
+			const ret_address = verify(args.signed_message);
 			return {
 				address: ret_address
 			};
@@ -23,9 +22,9 @@ export default resolver;
 
 /** The bleow code was for a different method that is no longer in use. It is
  * kept here just in case any need for it arises.
- */ // 	login: (_: any, args: { unsigned_address: string }, context: any) => {
-// let signedAddress = loginDataInput(args.unsigned_address);
+ */ // 	login: (_: any, args: { unsigned_message: string }, context: any) => {
+// let signedAddress = loginDataInput(args.unsigned_message);
 // return {
-// signed_address: signedAddress
+// signed_message: signedAddress
 // };
 // },
