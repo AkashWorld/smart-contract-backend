@@ -1,12 +1,7 @@
-type Login {
-	signed_address: String!
-}
-
 type Verify {
 	address: String!
 }
 
-extend type Query {
-	login(unsigned_address: String!): Login!
-	loginMM(signed_address: String!): Verify!
+extend type Mutation {
+	verify(signed_message: String!): Verify!
 }
