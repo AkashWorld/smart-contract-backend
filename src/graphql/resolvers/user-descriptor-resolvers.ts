@@ -93,19 +93,9 @@ const resolver: IResolvers = {
 				Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			services.globalDescriptorService.insertValueAsync(
+			services.globalDescriptorService.insertValue(
 				ethAccId,
-				{ ...args },
-				(transactionHash, transactionType, message) => {
-					const insertValueSubscription = {
-						transactionHash,
-						responseType: transactionType,
-						message
-					};
-					insertionSubscription.publish(ethAccId, {
-						insertValueSubscription
-					});
-				}
+				{ ...args }
 			);
 			return services.userDescriptorService.insertValueAsync(
 				ethAccId,
