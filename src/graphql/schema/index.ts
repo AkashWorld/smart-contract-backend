@@ -25,6 +25,14 @@ extend type Mutation {
 	createNewAccount(privateKey: String!): Create!
 }
 
+type Create {
+	newKey: String!
+}
+
+extend type Mutation {
+	createNewAccount(privateKey: String!): Create!
+}
+
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -43,6 +51,14 @@ extend type Query {
 extend type Subscription {
 	helloWorldSubscription: HelloWorldEvent!
 }
+type Verify {
+	address: String!
+}
+
+extend type Mutation {
+	verify(signed_message: String!): Verify!
+}
+
 type Verify {
 	address: String!
 }
