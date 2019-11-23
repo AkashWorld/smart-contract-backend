@@ -5,7 +5,7 @@ const Web3 = require('web3');
  * context object for each GraphQL query that is executed from the front-end.
  */
 export interface IContext {
-	getEtheriumAccountId: ()=>string;
+	getEtheriumAccountId: () => string;
 }
 
 export class Context implements IContext {
@@ -19,25 +19,25 @@ export class Context implements IContext {
 		this.signedMessage = signedMessage;
 	}
 
-	public getEtheriumAccountId():string {
+	public getEtheriumAccountId(): string {
 		return this.findAccount();
 	}
 
-  private findAccount(){
-    const web3 = new Web3(
-      new Web3.providers.HttpProvider('http://localhost:7545')
-    );
+	private findAccount() {
+		const web3 = new Web3(
+			new Web3.providers.HttpProvider('http://localhost:7545')
+		);
 
-    let etheriumAccountId: string = '';
+		let etheriumAccountId: string = '';
 
-    try {
-      etheriumAccountId = web3.eth.accounts.recover(
-        'Auth',
-        this.signedMessage
-      );
-    } catch {
-      return '';
-    }
-    return etheriumAccountId;
-  }
+		try {
+			etheriumAccountId = web3.eth.accounts.recover(
+				'Auth',
+				this.signedMessage
+			);
+		} catch {
+			return '';
+		}
+		return etheriumAccountId;
+	}
 }
