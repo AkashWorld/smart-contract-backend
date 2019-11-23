@@ -11,7 +11,7 @@ type Create {
 	newKey: String!
 }
 
-extend type Query {
+extend type Mutation {
 	createNewAccount(privateKey: String!): Create!
 }
 
@@ -26,17 +26,12 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
-type Login {
-	signed_address: String!
-}
-
 type Verify {
 	address: String!
 }
 
-extend type Query {
-	login(unsigned_address: String!): Login!
-	loginMM(signed_address: String!): Verify!
+extend type Mutation {
+	verify(signed_message: String!): Verify!
 }
 
 type Descriptor {
@@ -57,4 +52,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`
+`;
