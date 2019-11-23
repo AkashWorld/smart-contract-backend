@@ -21,6 +21,13 @@ type Subscription {
 	_: Boolean
 }
 
+type Create {
+	newKey: String!
+}
+
+extend type Mutation {
+	createNewAccount(privateKey: String!): Create!
+}
 
 enum Trend {
 	UP
