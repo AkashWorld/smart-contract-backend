@@ -66,4 +66,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`;
+`
