@@ -40,6 +40,9 @@ extend type Query {
 	localizedHelloWorld: LocalizedHelloWorld!
 }
 
+extend type Subscription {
+	helloWorldSubscription: HelloWorldEvent!
+}
 type Verify {
 	address: String!
 }
