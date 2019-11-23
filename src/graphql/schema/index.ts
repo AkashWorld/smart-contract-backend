@@ -52,4 +52,4 @@ extend type Query {
 	): [Descriptor!]!
 }
 
-`;
+`
