@@ -15,3 +15,29 @@ extend type Query {
 		count: Int!
 	): [Descriptor!]!
 }
+
+extend type Mutation {
+	insertValue(
+		unit: String!
+		value: Float!
+		longitude: Float
+		latitude: Float
+	): String!
+}
+
+enum TransactionResponse {
+	TRANSACTION_HASH
+	CONFIRMATION
+	RECIEPT
+	ERROR
+}
+
+type InsertValueResponse {
+	transactionHash: String!
+	responseType: TransactionResponse!
+	message: String!
+}
+
+extend type Subscription {
+	insertValueSubscription: InsertValueResponse!
+}

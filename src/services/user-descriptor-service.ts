@@ -8,6 +8,10 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
 import loadContractAddress from '../utilities/contract-address-loader';
+import { TRANSACTION_TYPE } from '../graphql/resolvers/user-descriptor-resolvers';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -46,7 +50,7 @@ export class UserDescriptorService {
 	 * Initializes the Web3 client that connects to the blockchain and creates the contract object.
 	 */
 	constructor(
-		web3Client = new Web3('http://localhost:7545'),
+		web3Client = new Web3(process.env.BLOCKCHAIN_URL),
 		contract?: UserDescriptors
 	) {
 		this.web3Client = web3Client;
@@ -66,31 +70,36 @@ export class UserDescriptorService {
 	 * @param value Data needed to enter itno blockchain
 	 * @param gas Optional paramter, defaults to 5,000,000. Need gas to perform any sort of operation.
 	 */
-	public async insertValue(
+	public insertValue(
 		accountId: string,
 		value: {
 			unit: string;
 			value: number;
-			latitude: number | null;
-			longitude: number | null;
+			latitude?: number;
+			longitude?: number;
 		},
 		gas = 5_000_000
-	): Promise<void> {
-		if (value.latitude == null || value.longitude == null) {
-			value.latitude = 999;
-			value.longitude = 999;
-		}
-		const transaction = this.contract.methods.insertValue(
-			value.unit,
-			Math.floor(value.value * this.DECIMAL_OFFSET),
-			Math.floor(value.longitude * this.DECIMAL_OFFSET),
-			Math.floor(value.latitude * this.DECIMAL_OFFSET)
-		);
-		const txOptions: Tx = {
-			from: accountId,
-			gas
-		};
-		return transaction.send(txOptions);
+	): Promise<string> {
+		return new Promise((resolve, reject) => {
+			if (value.latitude == null || value.longitude == null) {
+				value.latitude = 999;
+				value.longitude = 999;
+			}
+			const transaction = this.contract.methods.insertValue(
+				value.unit,
+				Math.floor(value.value * this.DECIMAL_OFFSET),
+				Math.floor(value.longitude * this.DECIMAL_OFFSET),
+				Math.floor(value.latitude * this.DECIMAL_OFFSET)
+			);
+			const txOptions: Tx = {
+				from: accountId,
+				gas
+			};
+			transaction
+				.send(txOptions)
+				.on('transactionHash', txHash => resolve(txHash))
+				.on('error', err => reject(err.message));
+		});
 	}
 
 	/**
@@ -210,6 +219,61 @@ export class UserDescriptorService {
 			);
 		}
 		return accounts[index];
+	}
+
+	public insertValueAsync(
+		accountId: string,
+		value: {
+			unit: string;
+			value: number;
+			latitude?: number;
+			longitude?: number;
+		},
+		subscriptionCallback: (
+			transactionHash: string,
+			transactionType: TRANSACTION_TYPE,
+			message: string
+		) => void,
+		gas = 5_000_000
+	) {
+		return new Promise((resolve, reject) => {
+			if (value.latitude == null || value.longitude == null) {
+				value.latitude = 999;
+				value.longitude = 999;
+			}
+			const transaction = this.contract.methods.insertValue(
+				value.unit,
+				Math.floor(value.value * this.DECIMAL_OFFSET),
+				Math.floor(value.longitude * this.DECIMAL_OFFSET),
+				Math.floor(value.latitude * this.DECIMAL_OFFSET)
+			);
+			const txOptions: Tx = {
+				from: accountId,
+				gas
+			};
+			transaction
+				.send(txOptions)
+				.on('transactionHash', rec => {
+					resolve(rec);
+				})
+				.on('receipt', rec => {
+					subscriptionCallback(
+						rec.transactionHash,
+						TRANSACTION_TYPE.RECIEPT,
+						rec.blockHash
+					);
+				})
+				.on('confirmation', (conf, rec) => {
+					subscriptionCallback(
+						rec.transactionHash,
+						TRANSACTION_TYPE.CONFIRMATION,
+						conf.toString(10)
+					);
+				})
+				.on('error', err => {
+					reject(err.message);
+				});
+		});
 	}
 
 	/**

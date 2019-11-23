@@ -1,4 +1,8 @@
 export const typeDefs = `
+extend type Query {
+	getBalance: Float!
+}
+
 schema {
 	query: Query
 	mutation: Mutation
@@ -17,12 +21,22 @@ type Subscription {
 	_: Boolean
 }
 
-type Create {
-	newKey: String!
+
+enum Trend {
+	UP
+	SAME
+	DOWN
 }
 
-extend type Mutation {
-	createNewAccount(privateKey: String!): Create!
+type DailyTrend {
+	unit: String!
+	value: Float!
+	trend: Trend
+}
+
+extend type Query {
+	getDailyWeight: DailyTrend
+	getDailyBMI: DailyTrend
 }
 
 type LocalizedHelloWorld {
@@ -67,6 +81,32 @@ extend type Query {
 		start: Int!
 		count: Int!
 	): [Descriptor!]!
+}
+
+extend type Mutation {
+	insertValue(
+		unit: String!
+		value: Float!
+		longitude: Float
+		latitude: Float
+	): String!
+}
+
+enum TransactionResponse {
+	TRANSACTION_HASH
+	CONFIRMATION
+	RECIEPT
+	ERROR
+}
+
+type InsertValueResponse {
+	transactionHash: String!
+	responseType: TransactionResponse!
+	message: String!
+}
+
+extend type Subscription {
+	insertValueSubscription: InsertValueResponse!
 }
 
 `

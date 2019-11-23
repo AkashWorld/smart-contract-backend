@@ -27,17 +27,19 @@ async function delayBlockTimestamp() {
 async function populateContractWithData(
 	contractService: UserDescriptorService,
 	accountId: string,
-	count = 1000
+	count: number,
+	unit: string,
+	startAmount: number,
+	unitGenerator: () => number
 ) {
 	for (let i = 0; i < count; ++i) {
 		const latLongRand = Math.random() * 0.05;
-		const weightRand = Math.random() * 5;
 		rutgersLatLong.latitude += randomSign() * latLongRand;
 		rutgersLatLong.longitude += randomSign() * latLongRand;
-		weight += randomSign() * weightRand;
+		startAmount += unitGenerator();
 		const value = {
-			unit: 'lb',
-			value: weight,
+			unit,
+			value: startAmount,
 			latitude: rutgersLatLong.latitude,
 			longitude: rutgersLatLong.longitude
 		};
@@ -51,7 +53,23 @@ async function main() {
 	const accountId = await accountLoader(undefined, 1);
 	const userDescriptor = new UserDescriptorService();
 
-	await populateContractWithData(userDescriptor, accountId);
+	await populateContractWithData(
+		userDescriptor,
+		accountId,
+		250,
+		'lb',
+		150,
+		() => randomSign() * Math.random() * 3
+	);
+
+	await populateContractWithData(
+		userDescriptor,
+		accountId,
+		250,
+		'inch',
+		65,
+		() => Math.random() * 0.05
+	);
 	console.log('Finished!');
 }
 
