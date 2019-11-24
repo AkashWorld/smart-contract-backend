@@ -1,4 +1,17 @@
 export const typeDefs = `
+type Verify {
+	address: String!
+}
+
+type Create {
+	newKey: String!
+}
+
+extend type Mutation {
+	verify(signed_message: String!): Verify!
+  createNewAccount(privateKey: String!): Create!
+}
+
 extend type Query {
 	getBalance: Float!
 }
@@ -19,14 +32,6 @@ type Mutation {
 
 type Subscription {
 	_: Boolean
-}
-
-type Create {
-	newKey: String!
-}
-
-extend type Mutation {
-	createNewAccount(privateKey: String!): Create!
 }
 
 enum Trend {
@@ -64,14 +69,6 @@ extend type Query {
 extend type Subscription {
 	helloWorldSubscription: HelloWorldEvent!
 }
-type Verify {
-	address: String!
-}
-
-extend type Mutation {
-	verify(signed_message: String!): Verify!
-}
-
 type Descriptor {
 	unit: String!
 	value: Float!

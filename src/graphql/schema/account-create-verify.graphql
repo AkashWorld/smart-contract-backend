@@ -2,6 +2,11 @@ type Verify {
 	address: String!
 }
 
+type Create {
+	newKey: String!
+}
+
 extend type Mutation {
 	verify(signed_message: String!): Verify!
+  createNewAccount(privateKey: String!): Create!
 }

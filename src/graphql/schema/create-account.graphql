@@ -1,7 +1,0 @@
-type Create {
-	newKey: String!
-}
-
-extend type Mutation {
-	createNewAccount(privateKey: String!): Create!
-}
