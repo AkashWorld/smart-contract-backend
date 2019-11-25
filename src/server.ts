@@ -24,6 +24,10 @@ app.use(bodyparser.json());
  * GraphQL endpoint
  */
 app.post('/graphql', (req, res) => {
+	accId = verify(req.header('authorization'));
+	if(accId !== null){
+		context = new Context(accId);
+	}
 	serveGraphQLRequest(
 		{
 			source: req.body.query,
@@ -35,18 +39,6 @@ app.post('/graphql', (req, res) => {
 	);
 });
 
-
-/**
-  * account login or creation endpoint
-	* since context is not yet initialized we need an
-	* endpoint that will do that without requiring a proper context
-	*/
-app.post('/account',(req,res)=>{
-	accId = verify(req.header('authorization'));
-	if(accId !== null){
-		context = new Context(accId);
-	}
-});
 
 export const server = createServer(app);
 
