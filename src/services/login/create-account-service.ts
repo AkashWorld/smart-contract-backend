@@ -9,7 +9,11 @@ const web3 = new Web3(process.env.BLOCKCHAIN_URL);
 
 export async function createNewAccount(privateKey: String) {
 	// this section generates the account
-	privateKey = "0x" + privateKey;
+
+	if(privateKey.substring(0,2) !== "0x"){
+		privateKey = "0x" + privateKey;
+	}
+
 	const newAccountAddress = await web3.eth.personal.importRawKey(
 		privateKey,
 		'password'
