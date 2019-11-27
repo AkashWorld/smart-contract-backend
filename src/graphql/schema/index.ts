@@ -51,6 +51,29 @@ extend type Query {
 	getDailyBMI: DailyTrend
 }
 
+
+
+extend type Query {
+	getValuesForUnitGlobal(unit: String!): [Descriptor!]!
+	getAllAvailableUnitsGlobal: [String!]!
+	getLatestUnitValueGlobal(unit: String!): Float!
+	getPaginatedDescriptorsGlobal(
+		unit: String!
+		start: Int!
+		count: Int!
+	): [Descriptor!]!
+}
+
+extend type Mutation {
+	insertValueGlobal(
+		unit: String!
+		value: Float!
+		longitude: Float
+		latitude: Float
+	): String!
+}
+
+
 type LocalizedHelloWorld {
 	java: String!
 	python: String!
@@ -78,6 +101,7 @@ type Descriptor {
 }
 
 extend type Query {
+	getValuesForUnit(unit: String!): [Descriptor!]!
 	getAllAvailableUnits: [String!]!
 	getLatestUnitValue(unit: String!): Float!
 	getPaginatedDescriptors(
