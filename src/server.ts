@@ -1,7 +1,7 @@
 import bodyparser from 'body-parser';
 import express from 'express';
 import { serveGraphQLRequest, createGraphQLSubscription } from './graphql';
-import { Context } from './graphql/context';
+import { Context, IContext } from './graphql/context';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
 
@@ -20,14 +20,16 @@ app.use(bodyparser.json());
  * GraphQL endpoint
  */
 app.post('/graphql', (req, res) => {
+	const authHeader = req.header('authorization');
+	const context: IContext | undefined = !authHeader
+		? undefined
+		: new Context(authHeader);
 	serveGraphQLRequest(
 		{
 			source: req.body.query,
 			operationName: req.body.operationName,
 			variableValues: req.body.variables,
-			contextValue: new Context(
-				'0x19B4ED919081720a753337546284bA7075F21fE6'
-			)
+			contextValue: context
 		},
 		res
 	);

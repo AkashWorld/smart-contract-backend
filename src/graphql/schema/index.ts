@@ -1,4 +1,17 @@
 export const typeDefs = `
+type Verify {
+	address: String!
+}
+
+type Create {
+	newKey: String!
+}
+
+extend type Mutation {
+	verify(signedMessage: String!): Verify!
+	createNewAccount(privateKey: String!): Create!
+}
+
 extend type Query {
 	getBalance: Float!
 }

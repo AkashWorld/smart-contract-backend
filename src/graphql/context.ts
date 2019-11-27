@@ -8,13 +8,17 @@ export interface IContext {
 }
 
 export class Context implements IContext {
-	private accountId: string;
+	private ethereumAccountId: string;
 
-	constructor(accountId: string) {
-		this.accountId = accountId;
+	/**This constructor will recieve singed messages for any transactions
+	 * and return the address which the message came from to be used as
+	 * context variable in other scripts.
+	 */
+	constructor(ethereumAccountId: string) {
+		this.ethereumAccountId = ethereumAccountId;
 	}
 
 	public getEtheriumAccountId(): string {
-		return this.accountId;
+		return this.ethereumAccountId;
 	}
 }
