@@ -1,20 +1,16 @@
 import { IResolvers } from 'graphql-tools';
-import { IContext } from '../context';
-import { PubSub } from 'graphql-subscriptions';
+import { IContext, Context } from '../context';
 import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 import { IDescriptor } from './user-descriptor-resolvers';
-import { TRANSACTION_TYPE } from './user-descriptor-resolvers';
-
-const insertionSubscription = new PubSub();
 
 const globalDescriptorService = new GlobalDescriptorService();
 
 const resolver: IResolvers = {
 	Query: {
-		getValuesForUnitGlobal: async(
+		getValuesForUnitGlobal: async (
 			_,
 			args: { unit: string },
-			context: IContext	
+			context: IContext
 		): Promise<IDescriptor[]> => {
 			if (context == undefined) {
 				Promise.reject('User context not available');
@@ -39,9 +35,12 @@ const resolver: IResolvers = {
 				args.unit
 			);
 		},
-		
-		// tslint:disable-next-line:object-literal-sort-keys
-		getAllAvailableUnitsGlobal: async (_, __, context) => {
+
+		getAllAvailableUnitsGlobal: async (
+			_: any,
+			__: any,
+			context: Context
+		) => {
 			if (context == undefined) {
 				return Promise.reject('Global context not available');
 			}
@@ -51,9 +50,6 @@ const resolver: IResolvers = {
 			);
 		},
 
-		
-
-		
 		getPaginatedDescriptorsGlobal: async (
 			_,
 			args: { unit: string; start: number; count: number },
@@ -73,24 +69,6 @@ const resolver: IResolvers = {
 				args.count
 			);
 		}
-		
-	},
-
-	Subscription: {
-		insertValueSubscription: {
-			subscribe: (_: any, __: any, context: IContext) => {
-				if (!context) return null;
-				return insertionSubscription.asyncIterator(
-					context.getEtheriumAccountId()
-				);
-			}
-		}
-	},
-	TransactionResponse: {
-		TRANSACTION_HASH: TRANSACTION_TYPE.TRANSACTION_HASH,
-		RECIEPT: TRANSACTION_TYPE.RECIEPT,
-		CONFIRMATION: TRANSACTION_TYPE.CONFIRMATION,
-		ERROR: TRANSACTION_TYPE.ERROR
 	}
 };
 
