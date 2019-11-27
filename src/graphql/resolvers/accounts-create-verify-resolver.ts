@@ -12,26 +12,22 @@ import { createNewAccount } from '../../services/login/create-account-service';
  * account address.
  */
 
- const resolver = {
- 	Mutation: {
- 		verify: (_: any, args: { signedMessage: string }, context: any) => {
- 			const returnAddress = verify(args.signedMessage);
-      return{
-        address: returnAddress
-      };
- 		},
+const resolver = {
+	Mutation: {
+		verify: (_: any, args: { signedMessage: string }) => {
+			const returnAddress = verify(args.signedMessage);
+			return {
+				address: returnAddress
+			};
+		},
 
-    createNewAccount: (
-      _: any,
-      args: { privateKey: string },
-      context: any
-    ) => {
-      const newAccountAddress = createNewAccount(args.privateKey);
-      return {
-        newKey: newAccountAddress
-      };
-    }
- 	}
- };
+		createNewAccount: (_: any, args: { privateKey: string }) => {
+			const newAccountAddress = createNewAccount(args.privateKey);
+			return {
+				newKey: newAccountAddress
+			};
+		}
+	}
+};
 
- export default resolver;
+export default resolver;

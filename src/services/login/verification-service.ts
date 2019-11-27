@@ -1,7 +1,3 @@
-import * as bodyparser from 'body-parser';
-import * as express from 'express';
-import { NextFunction, Request, Response, Router } from 'express';
-import * as httpserver from 'http';
 const Web3 = require('web3');
 import dotenv from 'dotenv';
 dotenv.config();
@@ -11,23 +7,27 @@ dotenv.config();
  * web3 functions ecrecover. As long as the address is part of the
  * current blockchain node then the verification will be successful.
  */
-export function verify(signed_address: string|undefined) {
-  if(typeof(signed_address)=="undefined") return null;
-  
+export function verify(signedAddress: string) {
 	const web3 = new Web3(process.env.BLOCKCHAIN_URL);
 
-	let address: string = "";
-
 	try {
-		address = web3.eth.accounts.recover('Auth', signed_address);
-	} catch {
+		const address: string = web3.eth.accounts.recover(
+			'Auth',
+			signedAddress
+		);
+		/**
+		 * Sanity checking this because its over network
+		 */
+		if (
+			typeof address != 'string' ||
+			address == null ||
+			address.length == 0
+		) {
+			return null;
+		}
+		return address;
+	} catch (error) {
+		console.error(error);
 		return null;
 	}
-
-  if(address !== ""){
-    return address;
-  }
-  else{
-    return null;
-  }
 }

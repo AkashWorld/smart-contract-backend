@@ -1,6 +1,3 @@
-const Web3 = require('web3');
-import { verify } from '../services/login/verification-service';
-
 /**
  * Interface for the Context object that will be passed into GraphQL
  * After we do authentication, we can pass the accountId around via a
@@ -11,7 +8,7 @@ export interface IContext {
 }
 
 export class Context implements IContext {
-  private ethereumAccountId : string;
+	private ethereumAccountId: string;
 
 	/**This constructor will recieve singed messages for any transactions
 	 * and return the address which the message came from to be used as
@@ -21,9 +18,7 @@ export class Context implements IContext {
 		this.ethereumAccountId = ethereumAccountId;
 	}
 
-
 	public getEtheriumAccountId(): string {
-    return this.ethereumAccountId;
+		return this.ethereumAccountId;
 	}
-
 }

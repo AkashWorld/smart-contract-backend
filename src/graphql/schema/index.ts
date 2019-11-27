@@ -8,8 +8,8 @@ type Create {
 }
 
 extend type Mutation {
-	verify(signed_message: String!): Verify!
-  createNewAccount(privateKey: String!): Create!
+	verify(signedMessage: String!): Verify!
+	createNewAccount(privateKey: String!): Create!
 }
 
 extend type Query {
