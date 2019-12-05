@@ -34,6 +34,21 @@ type Subscription {
 	_: Boolean
 }
 
+enum QueryTrend {
+	gain
+	lose
+	maintain
+}
+
+type WebPage {
+	title: String!
+	link: String!
+}
+
+extend type Query {
+	getWebsiteSuggestions(unitName: String!, trend: QueryTrend!, amount: Int): [WebPage!]!
+}
+
 enum Trend {
 	UP
 	SAME

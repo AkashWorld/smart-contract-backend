@@ -1,34 +1,26 @@
-name: CI
+name: Node CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [12.x]
+
     steps:
-      - uses: actions/checkout@master
-      - name: Install
-        uses: actions/npm@master
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          args: install
-      - name: Build
-        uses: actions/npm@master
-        with:
-          args: run build
-      - name: Lint
-        uses: actions/npm@master
-        with:
-          args: run lint
-      - name: Unit
-        uses: actions/npm@master
-        with:
-          args: run test:unit
-      - name: Integration
-        uses: actions/npm@master
-        with:
-          args: run test:integration
-      - name: Coverage
-        uses: actions/npm@master
-        with:
-          args: run coverage
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          npm ci
+          npm run build
+          npm run lint
+          npm test
+        env:
+          CI: true

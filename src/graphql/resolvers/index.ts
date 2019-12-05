@@ -4,7 +4,8 @@ import helloWorldResolver from './hello-world-resolver';
 import userDescriptorResolver from './user-descriptor-resolvers';
 import dynamicAnalyticsResolver from './dynamic-analytics-resolver';
 import accountsResolver from './accounts-resolver';
-import globalDescriptorResolver from './global-descriptor-resolvers'; 
+import globalDescriptorResolver from './global-descriptor-resolvers';
+import crawlerResolver from './crawler-resolver';
 
 export const resolvers = _.merge(
 	{},
@@ -13,5 +14,6 @@ export const resolvers = _.merge(
 	userDescriptorResolver,
 	dynamicAnalyticsResolver,
 	accountsResolver,
-	globalDescriptorResolver
+	globalDescriptorResolver,
+	crawlerResolver
 );
