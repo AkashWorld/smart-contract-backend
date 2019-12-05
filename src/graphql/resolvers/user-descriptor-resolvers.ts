@@ -1,7 +1,8 @@
 import { IResolvers } from 'graphql-tools';
-import services from '../../services';
 import { IContext } from '../context';
 import { PubSub } from 'graphql-subscriptions';
+import { UserDescriptorService } from '../../services/user-descriptor-service';
+import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 export interface IDescriptor {
 	unit: String;
 	value: number;
@@ -19,18 +20,22 @@ export enum TRANSACTION_TYPE {
 
 const insertionSubscription = new PubSub();
 
+const userDescriptorService = new UserDescriptorService();
+
+const globalDescriptorService = new GlobalDescriptorService();
+
 const resolver: IResolvers = {
 	Query: {
-		getValuesForUnit: async(
+		getValuesForUnit: async (
 			_,
 			args: { unit: string },
-			context: IContext	
+			context: IContext
 		): Promise<IDescriptor[]> => {
 			if (context == undefined) {
 				Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.userDescriptorService.getAllValuesRecordedForUnit(
+			return userDescriptorService.getAllValuesRecordedForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -40,9 +45,7 @@ const resolver: IResolvers = {
 				return Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.userDescriptorService.getAllAvailableUnitsForUser(
-				ethAccId
-			);
+			return userDescriptorService.getAllAvailableUnitsForUser(ethAccId);
 		},
 		getLatestUnitValue: async (
 			_,
@@ -53,7 +56,7 @@ const resolver: IResolvers = {
 				return Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.userDescriptorService.getLatestValueForUnit(
+			return userDescriptorService.getLatestValueForUnit(
 				ethAccId,
 				args.unit
 			);
@@ -70,7 +73,7 @@ const resolver: IResolvers = {
 				Promise.reject('Invalid count argument');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			return services.userDescriptorService.getPaginatedValuesRecordedForUnit(
+			return userDescriptorService.getPaginatedValuesRecordedForUnit(
 				ethAccId,
 				args.unit,
 				args.start,
@@ -93,11 +96,8 @@ const resolver: IResolvers = {
 				Promise.reject('User context not available');
 			}
 			const ethAccId = context.getEtheriumAccountId();
-			services.globalDescriptorService.insertValue(
-				ethAccId,
-				{ ...args }
-			);
-			return services.userDescriptorService.insertValueAsync(
+			globalDescriptorService.insertValue(ethAccId, { ...args });
+			return userDescriptorService.insertValueAsync(
 				ethAccId,
 				{ ...args },
 				(transactionHash, transactionType, message) => {

@@ -8,10 +8,16 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
 import loadContractAddress from '../utilities/contract-address-loader';
-import { TRANSACTION_TYPE } from '../graphql/resolvers/user-descriptor-resolvers';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+enum TRANSACTION_TYPE {
+	TRANSACTION_HASH,
+	RECIEPT,
+	CONFIRMATION,
+	ERROR
+}
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
