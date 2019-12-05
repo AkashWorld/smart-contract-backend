@@ -3,18 +3,18 @@
 
 /// <reference types="truffle-typings" />
 
-import * as TruffleContracts from '.';
+import * as TruffleContracts from ".";
 
 declare global {
-	namespace Truffle {
-		interface Artifacts {
-			require(
-				name: 'GlobalDescriptor'
-			): TruffleContracts.GlobalDescriptorContract;
-			require(name: 'Migrations'): TruffleContracts.MigrationsContract;
-			require(
-				name: 'UserDescriptors'
-			): TruffleContracts.UserDescriptorsContract;
-		}
-	}
+  namespace Truffle {
+    interface Artifacts {
+      require(
+        name: "GlobalDescriptor"
+      ): TruffleContracts.GlobalDescriptorContract;
+      require(name: "Migrations"): TruffleContracts.MigrationsContract;
+      require(
+        name: "UserDescriptors"
+      ): TruffleContracts.UserDescriptorsContract;
+    }
+  }
 }
