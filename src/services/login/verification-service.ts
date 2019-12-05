@@ -36,7 +36,6 @@ export async function verify(signedAddress: string) {
 		) {
 			return null;
 		}
-
 		return address;
 	} catch (error) {
 		console.error(error);
