@@ -1,18 +1,22 @@
 import Web3 from 'web3';
 import dotenv from 'dotenv';
+const Web3EthPersonal = require('web3-eth-personal');
+const web3personal = new Web3EthPersonal(process.env.BLOCKCHAIN_URL);
 
 dotenv.config();
 const web3 = new Web3(process.env.BLOCKCHAIN_URL);
 
 export async function createNewAccount(privateKey: String) {
-	// this section generates the account
+	const accounts = await web3personal.getAccounts();
+	let originalNumberOfAccounts = accounts.length;
 
 	if (privateKey.substring(0, 2) !== '0x') {
 		privateKey = '0x' + privateKey;
 	}
 
-	/**
-	 * TODO: TypeScript type definition says this function has no input but documentation says it does.
+	/** given private key will import the account, duplicate accounts will not be
+	 * created, so there will have to be check to see if same private key tries to
+	 * register twice
 	 */
 	const newAccountAddress: string = await (web3.eth
 		.personal as any).importRawKey(privateKey, 'password');
@@ -20,19 +24,23 @@ export async function createNewAccount(privateKey: String) {
 		return null;
 	}
 
-	const accounts = await web3.eth.getAccounts();
-	const newAccount = accounts.pop();
-	if (newAccount == null) {
-		return null;
-	}
+	const updatedAccounts = await web3personal.getAccounts();
+	let updatedNumberOfAccounts = updatedAccounts.length;
+
+	/**checks to see if we have same number of accounts before and after import
+	 * and returns null if yes, meaning no new account was added; if same account
+	 * tries to register twice
+	 */
+	if (updatedNumberOfAccounts == originalNumberOfAccounts) return null;
 
 	// puts ether into new accounts
 	const val: string = web3.utils.toWei('10'); // for now putting 10 ethers in new accounts
 	web3.eth.sendTransaction({
-		from: accounts[0],
-		to: newAccount,
+		from: updatedAccounts[0],
+		to: newAccountAddress,
 		value: val
 	});
+
 	return newAccountAddress;
 }
 

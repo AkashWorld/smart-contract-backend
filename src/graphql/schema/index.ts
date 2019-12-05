@@ -113,4 +113,4 @@ extend type Subscription {
 	insertValueSubscription: InsertValueResponse!
 }
 
-`
+`;
