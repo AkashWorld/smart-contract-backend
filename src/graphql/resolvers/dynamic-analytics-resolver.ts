@@ -54,25 +54,21 @@ const resolver = {
 			if (!context) {
 				return null;
 			}
-			const heights = (
-				await userDescriptorService.getPaginatedValuesRecordedForUnit(
-					context.getEtheriumAccountId(),
-					'inch',
-					0,
-					2
-				)
-			).map(val => val.value);
+			const heights = (await userDescriptorService.getPaginatedValuesRecordedForUnit(
+				context.getEtheriumAccountId(),
+				'inch',
+				0,
+				2
+			)).map(val => val.value);
 			if (heights.length == 0) {
 				return null;
 			}
-			const weights = (
-				await userDescriptorService.getPaginatedValuesRecordedForUnit(
-					context.getEtheriumAccountId(),
-					'lb',
-					0,
-					2
-				)
-			).map(val => val.value);
+			const weights = (await userDescriptorService.getPaginatedValuesRecordedForUnit(
+				context.getEtheriumAccountId(),
+				'lb',
+				0,
+				2
+			)).map(val => val.value);
 			if (weights.length == 0) {
 				return null;
 			}
