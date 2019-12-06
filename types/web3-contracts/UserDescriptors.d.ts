@@ -26,7 +26,14 @@ export class UserDescriptors extends Contract {
     getAllUnitValues(
       unit: string
     ): TransactionObject<
-      ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
+      ({
+        unitValue: BN;
+        longitude: BN;
+        latitude: BN;
+        time: BN;
+        gender: string;
+        year: BN;
+      })[]
     >;
 
     getPaginatedUnitValues(
@@ -34,14 +41,23 @@ export class UserDescriptors extends Contract {
       start: number | string,
       count: number | string
     ): TransactionObject<
-      ({ unitValue: BN; longitude: BN; latitude: BN; time: BN })[]
+      ({
+        unitValue: BN;
+        longitude: BN;
+        latitude: BN;
+        time: BN;
+        gender: string;
+        year: BN;
+      })[]
     >;
 
     insertValue(
       unit: string,
       value: number | string,
       longitude: number | string,
-      latitude: number | string
+      latitude: number | string,
+      gender: string,
+      year: number | string
     ): TransactionObject<void>;
 
     getAllAvailableUnits(): TransactionObject<(string)[]>;

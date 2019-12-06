@@ -13,6 +13,8 @@ contract UserDescriptors {
         int longitude;
         int latitude;
         uint256 time;
+        string gender;
+        int year;
     }
 
     /**
@@ -25,13 +27,15 @@ contract UserDescriptors {
      */
     mapping(address => mapping(string => Descriptor[])) descriptorValues;
 
-    function insertValue(string memory unit, int value, int longitude, int latitude) public {
+    function insertValue(string memory unit, int value, int longitude, int latitude, string memory gender, int year) public {
         insertUnit(unit);
         descriptorValues[msg.sender][unit].push(Descriptor({
             unitValue: value,
             longitude: longitude,
             latitude: latitude,
-            time: block.timestamp
+            time: block.timestamp,
+            gender: gender,
+            year: year
         }));
     }
     

@@ -111,6 +111,8 @@ type Descriptor {
 	longitude: Float!
 	latitude: Float!
 	unixTimestamp: Int!
+	gender: String!
+	year: Float!
 }
 
 extend type Query {
@@ -130,6 +132,8 @@ extend type Mutation {
 		value: Float!
 		longitude: Float
 		latitude: Float
+		gender: String!
+		year: Float!
 	): String!
 }
 

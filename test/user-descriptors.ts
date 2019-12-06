@@ -51,7 +51,7 @@ contract('UserDescriptors test', async accounts => {
 	it('should return a value when inserted a value', async () => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 150;
-		await contractInstance.insertValue('lb', expectedVal, 50, 50, {
+		await contractInstance.insertValue('lb', expectedVal, 50, 50, 'Male', 1997,{
 			from: accounts[0]
 		});
 
@@ -75,6 +75,8 @@ contract('UserDescriptors test', async accounts => {
 			expectedVal1.val,
 			50,
 			50,
+			'male',
+			'1997',
 			{
 				from: accounts[0]
 			}
@@ -84,6 +86,8 @@ contract('UserDescriptors test', async accounts => {
 			expectedVal2.val,
 			50,
 			50,
+			'male',
+			'1998',
 			{
 				from: accounts[0]
 			}
@@ -93,6 +97,8 @@ contract('UserDescriptors test', async accounts => {
 			expectedVal3.val,
 			50,
 			50,
+			'male',
+			'1999',
 			{
 				from: accounts[0]
 			}
@@ -128,16 +134,16 @@ contract('UserDescriptors test', async accounts => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 150;
 		const key = 'lb';
-		await contractInstance.insertValue(key, 50, 50, 50, {
+		await contractInstance.insertValue(key, 50, 50, 50, 'male', 1980, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue(key, 140, 50, 50, {
+		await contractInstance.insertValue(key, 140, 50, 50,'male', 1982, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue(key, 500, 50, 50, {
+		await contractInstance.insertValue(key, 500, 50, 50,'male', 1984, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue(key, 150, 50, 50, {
+		await contractInstance.insertValue(key, 150, 50, 50,'male', 1985, {
 			from: accounts[0]
 		});
 
@@ -154,7 +160,7 @@ contract('UserDescriptors test', async accounts => {
 	it('should not return values that the account did not post', async () => {
 		const contractInstance = await UserDescriptors.new();
 		const expectedVal = 0;
-		await contractInstance.insertValue('lb', 150, 50, 50, {
+		await contractInstance.insertValue('lb', 150, 50, 50, 'male', 1980,{
 			from: accounts[0]
 		});
 
@@ -192,6 +198,8 @@ contract('UserDescriptors test', async accounts => {
 				expectedValues[i],
 				expectedLong[i],
 				expectedLat[i],
+				'female',
+				1980,
 				{
 					from: accounts[0]
 				}
@@ -233,13 +241,13 @@ contract('UserDescriptors test', async accounts => {
 	});
 	it('should return a list of units if units were inserted', async () => {
 		const contractInstance = await UserDescriptors.new();
-		await contractInstance.insertValue('lb', 150, 50, 50, {
+		await contractInstance.insertValue('lb', 150, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('cm', 150, 50, 50, {
+		await contractInstance.insertValue('cm', 150, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('miles', 150, 50, 50, {
+		await contractInstance.insertValue('miles', 150, 50, 50, 'male', 1950,{
 			from: accounts[0]
 		});
 
@@ -252,13 +260,13 @@ contract('UserDescriptors test', async accounts => {
 	});
 	it('should not return duplicate units if units were inserted', async () => {
 		const contractInstance = await UserDescriptors.new();
-		await contractInstance.insertValue('lb', 150, 50, 50, {
+		await contractInstance.insertValue('lb', 150, 50, 50, 'male', 1950,{
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('lb', 50, 50, 50, {
+		await contractInstance.insertValue('lb', 50, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('lb', 20, 50, 50, {
+		await contractInstance.insertValue('lb', 20, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
 
@@ -269,13 +277,13 @@ contract('UserDescriptors test', async accounts => {
 	});
 	it('should return empty list if called from another account', async () => {
 		const contractInstance = await UserDescriptors.new();
-		await contractInstance.insertValue('lb', 150, 50, 50, {
+		await contractInstance.insertValue('lb', 150, 50, 50, 'male', 1950,{
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('cm', 150, 50, 50, {
+		await contractInstance.insertValue('cm', 150, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
-		await contractInstance.insertValue('miles', 150, 50, 50, {
+		await contractInstance.insertValue('miles', 150, 50, 50,'male', 1950, {
 			from: accounts[0]
 		});
 
@@ -291,7 +299,7 @@ contract('UserDescriptors test', async accounts => {
 		for (let i = 0; i < 50; ++i)
 			unitValues.push(Math.floor(Math.random() * 150));
 		for (let val of unitValues)
-			await contractInstance.insertValue('lb', val, 50, 50, {
+			await contractInstance.insertValue('lb', val, 50, 50, 'male', 1950,{
 				from: accounts[0]
 			});
 

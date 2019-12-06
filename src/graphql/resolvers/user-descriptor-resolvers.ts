@@ -4,11 +4,13 @@ import { PubSub } from 'graphql-subscriptions';
 import { UserDescriptorService } from '../../services/user-descriptor-service';
 import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 export interface IDescriptor {
-	unit: String;
+	unit: string;
 	value: number;
 	longitude: number;
 	latitude: number;
 	unixTimestamp: number;
+	gender: string;
+	year: number;
 }
 
 export enum TRANSACTION_TYPE {
@@ -89,6 +91,8 @@ const resolver: IResolvers = {
 				value: number;
 				latitude?: number;
 				longitude?: number;
+				gender: string;
+				year: number;
 			},
 			context: IContext
 		) => {

@@ -85,6 +85,8 @@ export class UserDescriptorService {
 			value: number;
 			latitude?: number;
 			longitude?: number;
+			gender: string;
+			year: number;
 		},
 		gas = 5_000_000
 	): Promise<string> {
@@ -97,7 +99,9 @@ export class UserDescriptorService {
 				value.unit,
 				Math.floor(value.value * this.DECIMAL_OFFSET),
 				Math.floor(value.longitude * this.DECIMAL_OFFSET),
-				Math.floor(value.latitude * this.DECIMAL_OFFSET)
+				Math.floor(value.latitude * this.DECIMAL_OFFSET),
+				value.gender,
+				Math.floor(value.year * this.DECIMAL_OFFSET)
 			);
 			const txOptions: Tx = {
 				from: accountId,
@@ -164,7 +168,9 @@ export class UserDescriptorService {
 				latitude:
 					UserDescriptorService.BNToNumber(val.latitude) /
 					this.DECIMAL_OFFSET,
-				unixTimestamp: UserDescriptorService.BNToNumber(val.time)
+				unixTimestamp: UserDescriptorService.BNToNumber(val.time),
+				gender: val.gender,
+				year: UserDescriptorService.BNToNumber(val.year)
 			};
 		});
 	}
@@ -191,7 +197,9 @@ export class UserDescriptorService {
 				latitude:
 					UserDescriptorService.BNToNumber(val.latitude) /
 					this.DECIMAL_OFFSET,
-				unixTimestamp: UserDescriptorService.BNToNumber(val.time)
+				unixTimestamp: UserDescriptorService.BNToNumber(val.time),
+				gender: val.gender,
+				year: UserDescriptorService.BNToNumber(val.year)
 			};
 		});
 	}
@@ -236,6 +244,8 @@ export class UserDescriptorService {
 			value: number;
 			latitude?: number;
 			longitude?: number;
+			gender: string;
+			year: number;
 		},
 		subscriptionCallback: (
 			transactionHash: string,
@@ -253,7 +263,9 @@ export class UserDescriptorService {
 				value.unit,
 				Math.floor(value.value * this.DECIMAL_OFFSET),
 				Math.floor(value.longitude * this.DECIMAL_OFFSET),
-				Math.floor(value.latitude * this.DECIMAL_OFFSET)
+				Math.floor(value.latitude * this.DECIMAL_OFFSET),
+				value.gender,
+				Math.floor(value.year * this.DECIMAL_OFFSET)
 			);
 			const txOptions: Tx = {
 				from: accountId,
@@ -307,4 +319,6 @@ export interface IDescriptor {
 	longitude: number;
 	latitude: number;
 	unixTimestamp: number;
+	gender: string;
+	year: number;
 }
