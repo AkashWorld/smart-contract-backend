@@ -1,4 +1,3 @@
-
 import BN from 'bn.js';
 import fs from 'fs';
 import Web3 from 'web3';
@@ -6,10 +5,16 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { GlobalDescriptor } from '../../types/web3-contracts/GlobalDescriptor';
 import loadContractAddress from '../utilities/contract-address-loader';
-import { TRANSACTION_TYPE } from '../graphql/resolvers/user-descriptor-resolvers';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+enum TRANSACTION_TYPE {
+	TRANSACTION_HASH,
+	RECIEPT,
+	CONFIRMATION,
+	ERROR
+}
 
 /**
  * This class's purpose is to be an abstraction for interacting with the Blockchain, and in particular,
@@ -60,8 +65,6 @@ export class GlobalDescriptorService {
 				  ) as GlobalDescriptor)
 				: contract;
 	}
-
-
 
 	/**
 	 * Abstraction for GlobalDescriptor (smart contract) method, insertValue(unit: string, value: number)
@@ -195,10 +198,10 @@ export class GlobalDescriptorService {
 					GlobalDescriptorService.BNToNumber(val.unitValue) /
 					this.DECIMAL_OFFSET,
 				longitude:
-				GlobalDescriptorService.BNToNumber(val.longitude) /
+					GlobalDescriptorService.BNToNumber(val.longitude) /
 					this.DECIMAL_OFFSET,
 				latitude:
-				GlobalDescriptorService.BNToNumber(val.latitude) /
+					GlobalDescriptorService.BNToNumber(val.latitude) /
 					this.DECIMAL_OFFSET,
 				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
 			};

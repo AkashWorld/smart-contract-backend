@@ -1,11 +1,9 @@
 import Web3 from 'web3';
 import accountLoader from '../../src/utilities/account-address-loader';
-import getContractAddress from '../../src/utilities/contract-address-loader';
 import { UserDescriptorService } from '../../src/services/user-descriptor-service';
 
 const web3 = new Web3('http://localhost:7545');
 let rutgersLatLong = { latitude: 40.501304, longitude: -74.447367 };
-let weight = 180;
 
 function randomSign(): number {
 	if (Math.random() < 0.5) return -1;
