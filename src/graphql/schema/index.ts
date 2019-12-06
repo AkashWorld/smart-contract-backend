@@ -66,8 +66,6 @@ extend type Query {
 	getDailyBMI: DailyTrend
 }
 
-
-
 extend type Query {
 	getValuesForUnitGlobal(unit: String!): [Descriptor!]!
 	getAllAvailableUnitsGlobal: [String!]!
@@ -77,6 +75,7 @@ extend type Query {
 		start: Int!
 		count: Int!
 	): [Descriptor!]!
+	getAverageForUnit(unit: String!, count: Int): Float!
 }
 
 extend type Mutation {
@@ -87,7 +86,6 @@ extend type Mutation {
 		latitude: Float
 	): String!
 }
-
 
 type LocalizedHelloWorld {
 	java: String!

@@ -8,7 +8,9 @@ import Web3 from 'web3';
 import { Tx } from 'web3/eth/types';
 import { UserDescriptors } from '../../types/web3-contracts/UserDescriptors';
 import loadContractAddress from '../utilities/contract-address-loader';
+import cache from 'memory-cache';
 import dotenv from 'dotenv';
+import { getAverageValueCacheKey } from '../graphql/resolvers/global-descriptor-resolvers';
 
 dotenv.config();
 
@@ -263,6 +265,10 @@ export class UserDescriptorService {
 					resolve(rec);
 				})
 				.on('receipt', rec => {
+					cache.put(
+						getAverageValueCacheKey(value.unit),
+						null
+					); /*Clear cache */
 					subscriptionCallback(
 						rec.transactionHash,
 						TRANSACTION_TYPE.RECIEPT,

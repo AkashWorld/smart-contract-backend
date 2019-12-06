@@ -2,6 +2,7 @@ import { IResolvers } from 'graphql-tools';
 import { IContext, Context } from '../context';
 import { GlobalDescriptorService } from '../../services/global-descriptor-service';
 import { IDescriptor } from './user-descriptor-resolvers';
+import cache from 'memory-cache';
 
 const globalDescriptorService = new GlobalDescriptorService();
 
@@ -68,8 +69,39 @@ const resolver: IResolvers = {
 				args.start,
 				args.count
 			);
+		},
+		getAverageForUnit: async (
+			_,
+			args: { unit: string; count?: number },
+			context: IContext
+		) => {
+			if (!context) {
+				return null;
+			}
+			const cacheResult = cache.get(getAverageValueCacheKey(args.unit));
+			if (cacheResult) {
+				return cacheResult;
+			}
+			if (!args.count) {
+				args.count = 500;
+			}
+			const data: IDescriptor[] = await globalDescriptorService.getPaginatedValuesRecordedForUnit(
+				context.getEtheriumAccountId(),
+				args.unit,
+				0,
+				args.count
+			);
+			const average =
+				data.reduce((accum, curr) => accum + curr.value, 0) /
+				data.length;
+			cache.put(getAverageValueCacheKey(args.unit), average);
+			return average;
 		}
 	}
 };
+
+export function getAverageValueCacheKey(unit: string): string {
+	return `AVERAGE${unit}`;
+}
 
 export default resolver;
