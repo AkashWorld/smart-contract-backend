@@ -12,7 +12,7 @@
 		"build": "npm run graphql && npm run build:truffle && npm run generate-types && npm run build:typescript",
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
-		"generate-types": "typechain --target truffle './build/**/contracts/*.json' && typechain --target web3-1.0.0 './build/**/contracts/*.json'",
+		"generate-types": "typechain --target truffle \"./build/**/contracts/*.json\" && typechain --target web3-1.0.0 \"./build/**/contracts/*.json\"",
 		"migrate": "truffle migrate",
 		"migrate:test": "truffle migrate --network test",
 		"deploy:local": "ganache-cli &",
