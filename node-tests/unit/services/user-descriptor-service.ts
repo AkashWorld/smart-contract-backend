@@ -23,7 +23,9 @@ describe('Tests User Descriptor contract service', () => {
 			unit: 'testUnit',
 			value: 10,
 			latitude: 10,
-			longitude: 10
+			longitude: 10,
+			gender: 'male',
+			year: 1999
 		});
 
 		expect(contractStub.methods.insertValue.calledOnce).true;

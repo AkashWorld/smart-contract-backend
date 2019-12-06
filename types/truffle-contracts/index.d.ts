@@ -147,6 +147,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       longitude: BigNumber;
       latitude: BigNumber;
       time: BigNumber;
+      gender: string;
+      year: BigNumber;
     })[]
   >;
 
@@ -161,6 +163,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       longitude: BigNumber;
       latitude: BigNumber;
       time: BigNumber;
+      gender: string;
+      year: BigNumber;
     })[]
   >;
 
@@ -170,6 +174,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       value: number | BigNumber | string,
       longitude: number | BigNumber | string,
       latitude: number | BigNumber | string,
+      gender: string,
+      year: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<Truffle.TransactionResponse>;
     call(
@@ -177,6 +183,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       value: number | BigNumber | string,
       longitude: number | BigNumber | string,
       latitude: number | BigNumber | string,
+      gender: string,
+      year: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<void>;
     sendTransaction(
@@ -184,6 +192,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       value: number | BigNumber | string,
       longitude: number | BigNumber | string,
       latitude: number | BigNumber | string,
+      gender: string,
+      year: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
     estimateGas(
@@ -191,6 +201,8 @@ export interface UserDescriptorsInstance extends Truffle.ContractInstance {
       value: number | BigNumber | string,
       longitude: number | BigNumber | string,
       latitude: number | BigNumber | string,
+      gender: string,
+      year: number | BigNumber | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<number>;
   };
