@@ -4,21 +4,21 @@ import { serveGraphQLRequest, createGraphQLSubscription } from './graphql';
 import { Context, IContext } from './graphql/context';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
-
+import cors from 'cors';
 dotenv.config();
 
 const PORT = process.env.PORT;
 
 const app = express();
 
-/**
- * Allow only JSON request bodies
- */
 app.use(bodyparser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 /**
  * GraphQL endpoint
  */
+
 app.post('/graphql', (req, res) => {
 	const authHeader = req.header('authorization');
 	const context: IContext | undefined = !authHeader
@@ -34,6 +34,8 @@ app.post('/graphql', (req, res) => {
 		res
 	);
 });
+
+//end of graphql setup
 
 export const server = createServer(app);
 
