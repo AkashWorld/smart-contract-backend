@@ -1,4 +1,4 @@
-const Web3 = require('web3');
+import Web3 from 'web3';
 import dotenv from 'dotenv';
 const Web3EthPersonal = require('web3-eth-personal');
 dotenv.config();
@@ -34,8 +34,17 @@ export async function verify(signedAddress: string) {
 			address == null ||
 			address.length == 0
 		) {
+			console.error('Retrieved address is invalid');
 			return null;
 		}
+
+		/**Check to see if recieved account is part of the node*/
+		const existingAccounts = await web3personal.getAccounts();
+		if (!existingAccounts.find((val: string) => val == address)) {
+			console.error('Could not verify account exists in blockchain');
+			return null;
+		}
+
 		return address;
 	} catch (error) {
 		console.error(error);

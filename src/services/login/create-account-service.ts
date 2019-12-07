@@ -8,7 +8,11 @@ const web3 = new Web3(process.env.BLOCKCHAIN_URL);
 
 export async function createNewAccount(privateKey: String) {
 	const accounts = await web3personal.getAccounts();
-	let originalNumberOfAccounts = accounts.length;
+	if (!accounts) {
+		console.error('Could not retrieve accounts');
+		return null;
+	}
+	const originalNumberOfAccounts = accounts.length;
 
 	if (privateKey.substring(0, 2) !== '0x') {
 		privateKey = '0x' + privateKey;
@@ -20,7 +24,8 @@ export async function createNewAccount(privateKey: String) {
 	 */
 	const newAccountAddress: string = await (web3.eth
 		.personal as any).importRawKey(privateKey, 'password');
-	if (newAccountAddress === null) {
+	if (!newAccountAddress) {
+		console.error('Could not retrieve new account address');
 		return null;
 	}
 
