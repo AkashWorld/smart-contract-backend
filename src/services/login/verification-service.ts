@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import dotenv from 'dotenv';
 const Web3EthPersonal = require('web3-eth-personal');
+import unlockAccount from '../unlock-account';
 dotenv.config();
 const web3personal = new Web3EthPersonal(process.env.BLOCKCHAIN_URL);
 
@@ -17,14 +18,10 @@ export async function verify(signedAddress: string) {
 
 		/**Check to see if recieved account is part of the node*/
 		const existingAccounts = await web3personal.getAccounts();
-		let exists = false;
-		for (let i = 0; i < existingAccounts.length; i++) {
-			if (existingAccounts[i] === address) {
-				exists = true;
-				break;
-			}
+		if (!existingAccounts.find((val: string) => val == address)) {
+			console.error('Could not verify account exists in blockchain');
+			return null;
 		}
-		if (exists == false) address = '';
 
 		/**
 		 * Sanity checking this because its over network
@@ -38,12 +35,9 @@ export async function verify(signedAddress: string) {
 			return null;
 		}
 
-		/**Check to see if recieved account is part of the node*/
-		const existingAccounts = await web3personal.getAccounts();
-		if (!existingAccounts.find((val: string) => val == address)) {
-			console.error('Could not verify account exists in blockchain');
-			return null;
-		}
+		/**Unlcok Account*/
+		unlockAccount(address);
+
 
 		return address;
 	} catch (error) {
