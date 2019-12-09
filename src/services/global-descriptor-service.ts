@@ -6,6 +6,8 @@ import { Tx } from 'web3/eth/types';
 import { GlobalDescriptor } from '../../types/web3-contracts/GlobalDescriptor';
 import loadContractAddress from '../utilities/contract-address-loader';
 import dotenv from 'dotenv';
+import cache from 'memory-cache';
+import { GLOBAL_CACHE_KEY } from '../graphql/resolvers/global-descriptor-resolvers';
 
 dotenv.config();
 
@@ -100,7 +102,16 @@ export class GlobalDescriptorService {
 			};
 			transaction
 				.send(txOptions)
-				.on('transactionHash', txHash => resolve(txHash))
+				.on('transactionHash', txHash => {
+					resolve(txHash);
+				})
+				.on('receipt', () => {
+					const arr = cache.get(GLOBAL_CACHE_KEY + value.unit);
+					if (arr != null && Array.isArray(arr)) {
+						arr.push({ ...value, unixTimestamp: Date.now() });
+						cache.put(GLOBAL_CACHE_KEY + value.unit, arr);
+					}
+				})
 				.on('error', err => reject(err.message));
 		});
 	}
@@ -188,10 +199,13 @@ export class GlobalDescriptorService {
 		count = 50,
 		gas = 5_000_000
 	): Promise<IDescriptor[]> {
+		if (count <= 1000 && cache.get(GLOBAL_CACHE_KEY + unit)) {
+			return cache.get(GLOBAL_CACHE_KEY + unit).slice(1000 - count, 1000);
+		}
 		const stringArray = await this.contract.methods
 			.getPaginatedUnitValues(unit, start, count)
 			.call({ from: accountId, gas });
-		return stringArray.map(val => {
+		const retArr = stringArray.map(val => {
 			return {
 				unit,
 				value:
@@ -206,6 +220,10 @@ export class GlobalDescriptorService {
 				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
 			};
 		});
+		if (count == 1000) {
+			cache.put(GLOBAL_CACHE_KEY + unit, retArr);
+		}
+		return retArr;
 	}
 
 	public insertValueAsync(

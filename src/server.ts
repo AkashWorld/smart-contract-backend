@@ -5,6 +5,11 @@ import { Context, IContext } from './graphql/context';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import loadEtheriumAccountID from './utilities/account-address-loader';
+import { populateCache } from './pre-fetcher';
+
+populateCache();
+
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -20,19 +25,18 @@ app.use(cors());
  */
 
 app.post('/graphql', (req, res) => {
-	const authHeader = req.header('authorization');
-	const context: IContext | undefined = !authHeader
-		? undefined
-		: new Context(authHeader);
-	serveGraphQLRequest(
-		{
-			source: req.body.query,
-			operationName: req.body.operationName,
-			variableValues: req.body.variables,
-			contextValue: context
-		},
-		res
-	);
+	loadEtheriumAccountID().then(id => {
+		console.log('Request context: ' + id);
+		serveGraphQLRequest(
+			{
+				source: req.body.query,
+				operationName: req.body.operationName,
+				variableValues: req.body.variables,
+				contextValue: new Context(id)
+			},
+			res
+		);
+	});
 });
 
 //end of graphql setup

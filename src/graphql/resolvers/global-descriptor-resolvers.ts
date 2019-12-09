@@ -6,6 +6,8 @@ import cache from 'memory-cache';
 
 const globalDescriptorService = new GlobalDescriptorService();
 
+export const GLOBAL_CACHE_KEY = 'GLOBAL';
+
 const resolver: IResolvers = {
 	Query: {
 		getValuesForUnitGlobal: async (
