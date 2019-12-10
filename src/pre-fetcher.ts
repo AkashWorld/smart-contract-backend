@@ -18,6 +18,7 @@ async function retrieveGlobalValues(count = 1000) {
 		);
 		const key = GLOBAL_CACHE_KEY + element;
 		cache.put(key, arr);
+		console.log('Completed pre-fetching of ' + element);
 	});
 }
 
