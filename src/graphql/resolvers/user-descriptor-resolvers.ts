@@ -79,6 +79,22 @@ const resolver: IResolvers = {
 				args.start,
 				args.count
 			);
+		},
+		getLengthOfDescriptor: async (
+			_,
+			args: { unit: string },
+			context: IContext
+		) => {
+			if (context == undefined) {
+				Promise.reject('User context not available');
+			}
+			const ethAccId = context.getEtheriumAccountId();
+			return (
+				await userDescriptorService.getAllValuesRecordedForUnit(
+					ethAccId,
+					args.unit
+				)
+			).length;
 		}
 	},
 	Mutation: {

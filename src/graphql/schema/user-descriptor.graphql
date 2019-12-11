@@ -10,6 +10,7 @@ extend type Query {
 	getValuesForUnit(unit: String!): [Descriptor!]!
 	getAllAvailableUnits: [String!]!
 	getLatestUnitValue(unit: String!): Float!
+	getLengthOfDescriptor(unit: String!): Int!
 	getPaginatedDescriptors(
 		unit: String!
 		start: Int!

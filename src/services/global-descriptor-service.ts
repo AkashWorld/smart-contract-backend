@@ -7,7 +7,10 @@ import { GlobalDescriptor } from '../../types/web3-contracts/GlobalDescriptor';
 import loadContractAddress from '../utilities/contract-address-loader';
 import dotenv from 'dotenv';
 import cache from 'memory-cache';
-import { GLOBAL_CACHE_KEY } from '../graphql/resolvers/global-descriptor-resolvers';
+import {
+	GLOBAL_CACHE_KEY,
+	CACHE_AMOUNT
+} from '../graphql/resolvers/global-descriptor-resolvers';
 
 dotenv.config();
 
@@ -168,6 +171,10 @@ export class GlobalDescriptorService {
 		unit: string,
 		gas = 5_000_000
 	): Promise<IDescriptor[]> {
+		const array = cache.get(GLOBAL_CACHE_KEY + unit);
+		if (array) {
+			return array;
+		}
 		const txOptions: Tx = {
 			from: accountId,
 			gas
@@ -199,8 +206,9 @@ export class GlobalDescriptorService {
 		count = 50,
 		gas = 5_000_000
 	): Promise<IDescriptor[]> {
-		if (count <= 1000 && cache.get(GLOBAL_CACHE_KEY + unit)) {
-			return cache.get(GLOBAL_CACHE_KEY + unit).slice(1000 - count, 1000);
+		const array = cache.get(GLOBAL_CACHE_KEY + unit);
+		if (array && array.length >= count) {
+			return array.slice(array.length - count, array.length);
 		}
 		const stringArray = await this.contract.methods
 			.getPaginatedUnitValues(unit, start, count)
@@ -220,9 +228,7 @@ export class GlobalDescriptorService {
 				unixTimestamp: GlobalDescriptorService.BNToNumber(val.time)
 			};
 		});
-		if (count == 1000) {
-			cache.put(GLOBAL_CACHE_KEY + unit, retArr);
-		}
+		cache.put(GLOBAL_CACHE_KEY + unit, retArr);
 		return retArr;
 	}
 

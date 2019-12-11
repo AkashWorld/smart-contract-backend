@@ -31,11 +31,15 @@ const resolver = {
 				0,
 				2
 			);
+			console.log(`getDailyWeight paginated data ${paginatedData}`);
+			console.log(paginatedData);
 			if (!paginatedData || paginatedData.length == 0) {
 				return null;
 			}
 			const unit = paginatedData[paginatedData.length - 1].unit;
-			const value = paginatedData[paginatedData.length - 1].value;
+			const value =
+				paginatedData[paginatedData.length - 1].value -
+				paginatedData[paginatedData.length - 2].value;
 			let trend = null;
 			if (value > paginatedData[0].value) {
 				trend = TREND.UP;
@@ -54,17 +58,10 @@ const resolver = {
 			if (!context) {
 				return null;
 			}
-			const heights = (
-				await userDescriptorService.getPaginatedValuesRecordedForUnit(
-					context.getEtheriumAccountId(),
-					'inch',
-					0,
-					2
-				)
-			).map(val => val.value);
-			if (heights.length == 0) {
-				return null;
-			}
+			const height = await userDescriptorService.getLatestValueForUnit(
+				context.getEtheriumAccountId(),
+				'inch'
+			);
 			const weights = (
 				await userDescriptorService.getPaginatedValuesRecordedForUnit(
 					context.getEtheriumAccountId(),
@@ -76,10 +73,12 @@ const resolver = {
 			if (weights.length == 0) {
 				return null;
 			}
+			console.log(`getDailyBMI height weight`);
+			console.log(height);
+			console.log(weights);
 			const BMI =
-				(703 * weights[weights.length - 1]) /
-				Math.pow(heights[heights.length - 1], 2);
-			const pastBMI = (703 * weights[0]) / Math.pow(heights[0], 2);
+				(703 * weights[weights.length - 1]) / Math.pow(height, 2);
+			const pastBMI = (703 * weights[0]) / Math.pow(height, 2);
 			let trend = null;
 			if (BMI < pastBMI) {
 				trend = TREND.DOWN;

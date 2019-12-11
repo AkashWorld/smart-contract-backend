@@ -6,6 +6,7 @@ import { createServer } from 'http';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { populateCache } from './pre-fetcher';
+import accountAddressLoader from './utilities/account-address-loader';
 
 dotenv.config();
 
@@ -21,11 +22,16 @@ app.use(cors());
  * GraphQL endpoint
  */
 
+console.log(process.env.NODE_ENV);
+
 app.post('/graphql', (req, res) => {
 	const authHeader = req.header('authorization');
-	const context: IContext | undefined = !authHeader
-		? undefined
-		: new Context(authHeader);
+	let context: IContext | undefined = undefined;
+	if (process.env.NODE_ENV == 'production') {
+		context = !authHeader ? undefined : new Context(authHeader);
+	} else {
+		accountAddressLoader().then(val => (context = new Context(val)));
+	}
 	console.log(
 		'Request context: ' + (context ? context.getEtheriumAccountId() : null)
 	);

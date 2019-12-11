@@ -1,6 +1,5 @@
 import Web3 = require('web3');
 import dotenv = require('dotenv');
-
 dotenv.config();
 
 export class AccountsService {

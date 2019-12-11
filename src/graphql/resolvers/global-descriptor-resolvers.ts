@@ -7,6 +7,7 @@ import cache from 'memory-cache';
 const globalDescriptorService = new GlobalDescriptorService();
 
 export const GLOBAL_CACHE_KEY = 'GLOBAL';
+export const CACHE_AMOUNT = 250;
 
 const resolver: IResolvers = {
 	Query: {

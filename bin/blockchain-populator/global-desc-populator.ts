@@ -57,13 +57,34 @@ async function main() {
 		const accountId = await accountLoader(undefined, i);
 		populateContractWithData(
 			accountId,
-			500,
+			100,
 			'lb',
-			90 + offset,
-			() => Math.random() * 0.05
+			100 + offset,
+			() => Math.random() * 0.5
 		);
 	}
-
+	for (let i = 0; i < 10; ++i) {
+		const offset = Math.random() * 60;
+		const accountId = await accountLoader(undefined, i);
+		populateContractWithData(
+			accountId,
+			100,
+			'bpm',
+			40 + offset,
+			() => Math.random() * 0.5
+		);
+	}
+	for (let i = 0; i < 10; ++i) {
+		const offset = Math.random() * 40;
+		const accountId = await accountLoader(undefined, i);
+		populateContractWithData(
+			accountId,
+			5,
+			'inch',
+			60 + offset,
+			() => Math.random() * 0.5
+		);
+	}
 	console.log('Finished!');
 }
 
