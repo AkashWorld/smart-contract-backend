@@ -13,7 +13,7 @@
 		"build:typescript": "tsc --p tsconfig.json",
 		"build:truffle": "truffle compile",
 		"generate-types": "typechain --target truffle \"./build/**/contracts/*.json\" && typechain --target web3-1.0.0 \"./build/**/contracts/*.json\"",
-		"migrate": "truffle migrate",
+		"migrate": "truffle migrate && ts-node bin/blockchain-populator/global-desc-populator.ts",
 		"migrate:test": "truffle migrate --network test",
 		"deploy:local": "ganache-cli &",
 		"kill:local": "pkill -f '.*ganache-cli'",

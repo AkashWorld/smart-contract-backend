@@ -36,7 +36,10 @@ export async function createNewAccount(privateKey: String) {
 	 * and returns null if yes, meaning no new account was added; if same account
 	 * tries to register twice
 	 */
-	if (updatedNumberOfAccounts == originalNumberOfAccounts) return null;
+	if (updatedNumberOfAccounts == originalNumberOfAccounts) {
+		console.error('Previous number of accounts === current accounts');
+		return null;
+	}
 
 	// puts ether into new accounts
 	const val: string = web3.utils.toWei('10'); // for now putting 10 ethers in new accounts
