@@ -57,5 +57,7 @@ server.listen(PORT, () => {
 	console.log(
 		`GraphQL requests are enabled on /graphql endpoint via POST requests`
 	);
-	populateCache();
+	if (!process.env.CI) {
+		populateCache();
+	}
 });
