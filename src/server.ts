@@ -28,13 +28,14 @@ app.post('/graphql', (req, res) => {
 	const authHeader = req.header('authorization');
 	let context: IContext | undefined = undefined;
 	if (process.env.NODE_ENV == 'production') {
-		context = !authHeader ? undefined : new Context(authHeader);
+		if (authHeader) {
+			const tokenResult = Context.verifyToken(authHeader);
+			context = !tokenResult ? undefined : new Context(tokenResult);
+		}
 	} else {
 		accountAddressLoader().then(val => (context = new Context(val)));
 	}
-	console.log(
-		'Request context: ' + (context ? context.getEtheriumAccountId() : null)
-	);
+	console.log(context);
 	serveGraphQLRequest(
 		{
 			source: req.body.query,

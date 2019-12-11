@@ -53,7 +53,7 @@ async function populateContractWithData(
 
 async function main() {
 	for (let i = 0; i < 10; ++i) {
-		const offset = Math.random() * 160;
+		const offset = Math.random() * 200;
 		const accountId = await accountLoader(undefined, i);
 		populateContractWithData(
 			accountId,
@@ -71,17 +71,6 @@ async function main() {
 			100,
 			'bpm',
 			40 + offset,
-			() => Math.random() * 0.5
-		);
-	}
-	for (let i = 0; i < 10; ++i) {
-		const offset = Math.random() * 40;
-		const accountId = await accountLoader(undefined, i);
-		populateContractWithData(
-			accountId,
-			5,
-			'inch',
-			60 + offset,
 			() => Math.random() * 0.5
 		);
 	}

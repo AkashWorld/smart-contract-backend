@@ -1,5 +1,6 @@
 import { verify } from '../../services/login/verification-service';
 import { createNewAccount } from '../../services/login/create-account-service';
+import { Context } from '../context';
 
 /**
  *Resolver obtains the unsigned_address from the query request
@@ -14,10 +15,14 @@ import { createNewAccount } from '../../services/login/create-account-service';
 
 const resolver = {
 	Mutation: {
-		verify: (_: any, args: { signedMessage: string }) => {
-			const returnAddress = verify(args.signedMessage);
+		verify: async (_: any, args: { signedMessage: string }) => {
+			const returnAddress = await verify(args.signedMessage);
+			if (returnAddress == null) {
+				return null;
+			}
+			const token = Context.signAccountId(returnAddress);
 			return {
-				address: returnAddress
+				address: token
 			};
 		},
 

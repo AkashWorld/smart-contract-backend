@@ -58,7 +58,9 @@ export function createGraphQLSubscription(server: Server) {
 			schema: schema,
 			onConnect: (params: any) => {
 				if (!params.authorization) return null;
-				const context = new Context(params.authorization);
+				const accountId = Context.verifyToken(params.authorization);
+				if (!accountId) return;
+				const context = new Context(accountId);
 				console.log(
 					`ws://onConnect: (authorization) => accountId: ${context.getEtheriumAccountId()}`
 				);

@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 /**
  * Interface for the Context object that will be passed into GraphQL
  * After we do authentication, we can pass the accountId around via a
@@ -20,5 +21,35 @@ export class Context implements IContext {
 
 	public getEtheriumAccountId(): string {
 		return this.ethereumAccountId;
+	}
+
+	static PRIVATE_KEY =
+		"DON'T STORE YOUR PRIVATE KEY LIKE THIS PLEASE, IM JUST FUDGING";
+
+	static signAccountId(accountId: string): string {
+		console.log(`Signing accountId ${accountId}`);
+		const token = jwt.sign(
+			{ authorization: accountId },
+			Context.PRIVATE_KEY,
+			{
+				audience: 'HealthAnalyticsEngine',
+				issuer: 'SmartContractBackend'
+			}
+		);
+		console.log(`Signed token: ${token}`);
+		return token;
+	}
+
+	static verifyToken(token: string): string | undefined {
+		try {
+			const decodedToken = jwt.verify(token, Context.PRIVATE_KEY, {
+				audience: 'HealthAnalyticsEngine',
+				issuer: 'SmartContractBackend'
+			});
+			return (decodedToken as any).authorization;
+		} catch (err) {
+			console.error(err);
+			return undefined;
+		}
 	}
 }
